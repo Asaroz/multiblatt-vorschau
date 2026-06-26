@@ -1,9 +1,8 @@
 ---
 /* Kopfbereich mit Single-Page-Navigation (Anker-Links + Scrollspy).
-   - Desktop & Mobil teilen sich dieselben Links.
-   - Scrollspy hebt den aktuell sichtbaren Abschnitt hervor (nur JS-Komfort,
-     funktioniert auch ohne JS als normale Sprungmarken). */
-import { nav, site } from '../data/site';
+   - Desktop: horizontale Navigation.
+   - Mobil: Vollbild-Overlay-Menü mit großen Links + Kontakt. */
+import { nav, site, contact } from '../data/site';
 import { withBase } from '../lib/url';
 ---
 
@@ -13,7 +12,7 @@ import { withBase } from '../lib/url';
 >
   <div class="container-page flex items-center justify-between gap-4 py-3">
     <!-- Wortmarke -->
-    <a href={withBase('/#top')} class="group flex flex-col leading-none" aria-label={`${site.name} – nach oben`}>
+    <a href={withBase('/#top')} class="group relative z-10 flex flex-col leading-none" aria-label={`${site.name} – nach oben`}>
       <span class="font-serif text-2xl font-semibold tracking-tight text-ink-900">Multiblatt</span>
       <span class="mt-0.5 hidden text-[0.7rem] font-medium uppercase tracking-[0.18em] text-accent-700 sm:block">
         Büro &amp; Schreibservice
@@ -46,42 +45,63 @@ import { withBase } from '../lib/url';
     <button
       type="button"
       id="menu-toggle"
-      class="inline-flex items-center justify-center rounded-lg p-2 text-ink-800 hover:bg-ink-50 lg:hidden"
+      class="relative z-10 inline-flex items-center justify-center rounded-lg p-2 text-ink-900 hover:bg-ink-50 lg:hidden"
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
       <span class="sr-only">Menü öffnen</span>
-      <svg id="icon-open" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <svg id="icon-open" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
       </svg>
-      <svg id="icon-close" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <svg id="icon-close" class="hidden h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path stroke-linecap="round" d="M6 6l12 12M18 6 6 18" />
       </svg>
     </button>
   </div>
-
-  <!-- Mobil-Navigation -->
-  <nav id="mobile-menu" class="hidden border-t border-line bg-paper lg:hidden" aria-label="Hauptnavigation (mobil)">
-    <ul class="container-page space-y-1 py-4">
-      {
-        nav.map((item) => (
-          <li>
-            <a
-              href={withBase(`/#${item.id}`)}
-              data-spy={item.id}
-              class="nav-link block rounded-lg px-3 py-2 font-medium text-ink-800 hover:bg-ink-50"
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
-      }
-      <li class="pt-2">
-        <a href={withBase('/#kontakt')} class="btn btn-primary w-full">Anfrage senden</a>
-      </li>
-    </ul>
-  </nav>
 </header>
+
+<!-- Mobil: Vollbild-Overlay (außerhalb des Headers – backdrop-filter dort würde
+     die fixed-Positionierung auf die Header-Box beschränken) -->
+<nav id="mobile-menu" class="fixed inset-0 z-40 hidden bg-paper lg:hidden" aria-label="Hauptnavigation (mobil)">
+    <div class="menu-panel container-page flex h-full flex-col overflow-y-auto pb-10 pt-24">
+      <ul class="space-y-1">
+        <li>
+          <a href={withBase('/#top')} class="mobile-link">Start</a>
+        </li>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={withBase(`/#${item.id}`)} data-spy={item.id} class="mobile-link nav-link">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-auto border-t border-line pt-7">
+        <a href={withBase('/#kontakt')} class="btn btn-primary w-full text-base">Anfrage senden</a>
+        <div class="mt-5 space-y-3">
+          <a href={`tel:${contact.phoneHref}`} class="flex items-center gap-3 text-ink-800">
+            <span class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-accent-50 text-accent-700">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5C2.5 4 3.7 3 5.2 3h1.6c.7 0 1.3.5 1.5 1.2l.8 3c.2.6 0 1.3-.5 1.7l-1.3 1c.9 1.9 2.5 3.5 4.4 4.4l1-1.3c.4-.5 1-.7 1.7-.5l3 .8c.7.2 1.2.8 1.2 1.5v1.6c0 1.5-1 2.7-2.5 2.7C10.6 21.4 2.6 13.4 2.5 5.5Z"/></svg>
+            </span>
+            <span class="font-medium">{contact.phoneLabel}</span>
+          </a>
+          <a href={`mailto:${contact.email}`} class="flex items-center gap-3 text-ink-800">
+            <span class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-accent-50 text-accent-700">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="m3 7 9 6 9-6"/></svg>
+            </span>
+            <span class="font-medium">{contact.email}</span>
+          </a>
+        </div>
+        <div class="mt-6 flex gap-6 text-sm text-muted">
+          <a href={withBase('/impressum/')} class="hover:text-accent-700">Impressum</a>
+          <a href={withBase('/datenschutz/')} class="hover:text-accent-700">Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </nav>
 
 <style>
   /* Aktiver Scrollspy-Zustand */
@@ -93,14 +113,52 @@ import { withBase } from '../lib/url';
   #site-header.is-scrolled {
     box-shadow: 0 1px 0 0 var(--color-line), 0 8px 24px rgb(15 29 51 / 0.06);
   }
+
+  /* Vollbild-Mobilmenü: sanftes Einblenden des Panels */
+  .menu-panel {
+    animation: menuIn 0.2s ease both;
+  }
+  @keyframes menuIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .mobile-link {
+    display: block;
+    border-radius: 0.7rem;
+    padding: 0.8rem 0.85rem;
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--color-ink-900);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  .mobile-link:hover,
+  .mobile-link:focus-visible {
+    background-color: var(--color-ink-50);
+    color: var(--color-accent-700);
+  }
+  .mobile-link.is-active {
+    color: var(--color-accent-700);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .menu-panel {
+      animation: none;
+    }
+  }
 </style>
 
 <script>
-  // --- Mobile-Menü ---
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
   const iconOpen = document.getElementById('icon-open');
   const iconClose = document.getElementById('icon-close');
+  const ctaBar = document.querySelector<HTMLElement>('.js-cta-bar');
 
   const setMenu = (open: boolean) => {
     menu?.classList.toggle('hidden', !open);
@@ -108,12 +166,19 @@ import { withBase } from '../lib/url';
     toggle?.querySelector('.sr-only')!.replaceChildren(open ? 'Menü schließen' : 'Menü öffnen');
     iconOpen?.classList.toggle('hidden', open);
     iconClose?.classList.toggle('hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (ctaBar) ctaBar.style.display = open ? 'none' : '';
   };
+
   toggle?.addEventListener('click', () =>
     setMenu(menu?.classList.contains('hidden') ?? false),
   );
-  // Beim Klick auf einen Link das Menü schließen
+  // Schließen bei Link-Klick und bei Anker-Wechsel (z. B. Wortmarke)
   menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  window.addEventListener('hashchange', () => setMenu(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
+  });
 
   // --- Schatten beim Scrollen ---
   const header = document.getElementById('site-header');

@@ -6,7 +6,6 @@
    ueber einen Datenschutz-Generator / eine Rechtsberatung ergaenzt werden. */
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import Offen from '../components/Offen.astro';
 import { contact } from '../data/site';
 ---
 
@@ -18,12 +17,7 @@ import { contact } from '../data/site';
   />
 
   <section class="container-prose py-16">
-    <Offen>
-      Rechtsverbindlicher Volltext der Datenschutzerklärung. Das Gerüst nach
-      DSGVO steht; die markierten Abschnitte sind noch zu vervollständigen.
-    </Offen>
-
-    <div class="prose-block mt-10 space-y-8">
+    <div class="prose-block mt-4 space-y-8">
       <div>
         <h2 class="text-xl font-semibold text-ink-900">Verantwortlicher</h2>
         <p class="mt-3">
@@ -44,24 +38,6 @@ import { contact } from '../data/site';
       </div>
 
       <div>
-        <h2 class="text-xl font-semibold text-ink-900">Server-Logfiles (Hosting)</h2>
-        <Offen>
-          Angaben des Hosters zu Server-Logfiles (IP-Adresse, Zeitpunkt,
-          abgerufene Datei …), Zweck und Speicherdauer. Rechtsgrundlage
-          i.&nbsp;d.&nbsp;R. Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO.
-        </Offen>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-ink-900">Kontaktaufnahme (Formular, E-Mail, Telefon)</h2>
-        <Offen>
-          Beschreibung der bei einer Anfrage verarbeiteten Daten (Name, E-Mail,
-          Telefon, Nachricht), Zweck und Speicherdauer. Rechtsgrundlage
-          i.&nbsp;d.&nbsp;R. Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b/f DSGVO.
-        </Offen>
-      </div>
-
-      <div>
         <h2 class="text-xl font-semibold text-ink-900">OpenStreetMap</h2>
         <p class="mt-3">
           Beim Laden der Karte im Bereich „Anfahrt“ wird eine Verbindung zu den
@@ -69,15 +45,6 @@ import { contact } from '../data/site';
           die IP-Adresse übermittelt werden. Das Laden erfolgt ausschließlich
           nach ausdrücklicher Einwilligung (Klick).
         </p>
-      </div>
-
-      <div>
-        <h2 class="text-xl font-semibold text-ink-900">Ihre Rechte</h2>
-        <Offen>
-          Vollständiger Standardtext zu den Betroffenenrechten (Auskunft,
-          Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit,
-          Widerspruch sowie Beschwerderecht bei einer Aufsichtsbehörde).
-        </Offen>
       </div>
     </div>
   </section>

@@ -11,7 +11,6 @@ import Base from '../layouts/Base.astro';
 import Figure from '../components/Figure.astro';
 import ParallaxBand from '../components/ParallaxBand.astro';
 import Decor from '../components/Decor.astro';
-import Offen from '../components/Offen.astro';
 import { site, problems, services, values, contact, media } from '../data/site';
 ---
 
@@ -24,7 +23,7 @@ import { site, problems, services, values, contact, media } from '../data/site';
       <div class="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-accent-100/60 blur-3xl"></div>
     </div>
 
-    <div class="container-page grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
+    <div class="container-page grid items-center gap-10 pb-14 pt-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-24">
       <div class="reveal">
         <p class="eyebrow mb-4">Büro &amp; Schreibservice · Rees</p>
         <h1 class="text-5xl font-semibold leading-[1.05] sm:text-6xl md:text-7xl">Multiblatt</h1>
@@ -260,7 +259,6 @@ import { site, problems, services, values, contact, media } from '../data/site';
             individuell auf Ihre Situation ab.
           </p>
         </div>
-        <Offen>Persönlicher Vorstellungstext (Werdegang, Motivation) – aktueller Text ist Platzhalter.</Offen>
       </div>
     </div>
   </section>
@@ -307,10 +305,6 @@ import { site, problems, services, values, contact, media } from '../data/site';
             </div>
           </div>
           <p class="mt-3 text-xs text-muted">Kartendaten © OpenStreetMap-Mitwirkende.</p>
-          <Offen>
-            Genaue Kartenposition (Koordinaten der Hausnummer) noch nicht
-            bestätigt – Markierung derzeit näherungsweise.
-          </Offen>
         </div>
       </div>
     </div>
@@ -380,7 +374,6 @@ import { site, problems, services, values, contact, media } from '../data/site';
             </ul>
             <p class="mt-2 text-xs text-muted">{contact.hoursNote}</p>
           </div>
-          <Offen>Vollständige Sprechzeiten – bisher nur Freitag 08:00–12:00 Uhr bekannt.</Offen>
         </dl>
       </div>
 
