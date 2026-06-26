@@ -34,13 +34,14 @@
   --color-ink-800: #14233b;
   --color-ink-900: #0f1d33;
 
-  /* Warmer, dezenter Akzent (Karamell/Terrakotta) */
-  --color-accent-50: #faf3ec;
-  --color-accent-100: #f3e3d5;
-  --color-accent-200: #e7c6ab;
-  --color-accent-500: #b9774a;
-  --color-accent-600: #a05f33;
-  --color-accent-700: #8a4f2b; /* fuer Text auf hellem Grund (AA-konform) */
+  /* Markengrün (vom Briefkopf, ~#98B858) als Akzent – mit dunkleren,
+     kontraststarken Abstufungen für Buttons/Text. */
+  --color-accent-50: #f2f6e9;
+  --color-accent-100: #e3edcf;
+  --color-accent-200: #c7d89f;
+  --color-accent-500: #98b858; /* Markengrün (dekorativ) */
+  --color-accent-600: #5e7e2c; /* Buttons – weißer Text, AA-konform */
+  --color-accent-700: #4c671f; /* Text/Links auf hellem Grund (AA-konform) */
 
   /* Neutrale Textfarben */
   --color-muted: #586478;
