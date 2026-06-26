@@ -11,12 +11,15 @@ import { withBase } from '../lib/url';
   class="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur transition-shadow"
 >
   <div class="container-page flex items-center justify-between gap-4 py-3">
-    <!-- Wortmarke -->
-    <a href={withBase('/#top')} class="group relative z-10 flex flex-col leading-none" aria-label={`${site.name} – nach oben`}>
-      <span class="font-serif text-2xl font-semibold tracking-tight text-ink-900">Multiblatt</span>
-      <span class="mt-0.5 hidden text-[0.7rem] font-medium uppercase tracking-[0.18em] text-accent-700 sm:block">
-        Büro &amp; Schreibservice
-      </span>
+    <!-- Logo (vom Briefkopf) -->
+    <a href={withBase('/#top')} class="relative z-10 inline-flex items-center" aria-label={`${site.name} – nach oben`}>
+      <img
+        src={withBase('/images/logo-multiblatt.png')}
+        alt="Multiblatt – Angela Aldenhoff, Büro &amp; Schreibservice"
+        width="353"
+        height="206"
+        class="h-12 w-auto sm:h-14"
+      />
     </a>
 
     <!-- Desktop-Navigation -->
