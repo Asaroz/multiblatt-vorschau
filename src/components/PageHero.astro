@@ -1,0 +1,49 @@
+---
+/* Schlichter Seitenkopf fuer Unterseiten – inkl. optionaler Brotkrumen. */
+import { withBase } from '../lib/url';
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  crumbs?: Crumb[];
+}
+const { eyebrow, title, subtitle, crumbs } = Astro.props;
+---
+
+<section class="border-b border-line bg-gradient-to-b from-accent-50/60 to-paper">
+  <div class="container-page py-12 sm:py-16">
+    {
+      crumbs && crumbs.length > 0 && (
+        <nav aria-label="Brotkrumen" class="mb-5">
+          <ol class="flex flex-wrap items-center gap-2 text-sm text-muted">
+            {crumbs.map((c, i) => (
+              <li class="flex items-center gap-2">
+                {c.href ? (
+                  <a href={withBase(c.href)} class="hover:text-accent-700">
+                    {c.label}
+                  </a>
+                ) : (
+                  <span aria-current="page" class="text-ink-700">
+                    {c.label}
+                  </span>
+                )}
+                {i < crumbs.length - 1 && <span aria-hidden="true">/</span>}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
+    <h1 class="max-w-3xl text-3xl font-semibold sm:text-4xl md:text-5xl">{title}</h1>
+    {
+      subtitle && (
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-700">{subtitle}</p>
+      )
+    }
+  </div>
+</section>

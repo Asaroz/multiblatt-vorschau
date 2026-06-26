@@ -1,0 +1,18 @@
+---
+/* Auffälliger Marker für offene Punkte (Inhalte/Entscheidungen, die noch
+   geklärt werden müssen). Großes, rot umrandetes „OFFEN!" + kurze, sachliche
+   Beschreibung des offenen Punkts (per <slot>). Bewusst nur für die interne
+   Vorschau gedacht. */
+---
+
+<div
+  role="note"
+  class="not-prose my-5 flex items-start gap-3 rounded-xl border-2 border-red-500 bg-red-50 p-4"
+>
+  <span class="flex-none rounded-md bg-red-600 px-2.5 py-1 text-base font-extrabold uppercase leading-none tracking-wide text-white">
+    Offen!
+  </span>
+  <div class="text-sm leading-relaxed text-red-900">
+    <slot />
+  </div>
+</div>

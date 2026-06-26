@@ -1,0 +1,285 @@
+/* =============================================================================
+   Multiblatt – Redesign-Entwurf
+   Globales Stylesheet (Tailwind CSS v4, CSS-first Konfiguration)
+
+   HINWEIS: Dies ist ein Gestaltungsentwurf ("Pitch"). Farben, Typografie und
+   Abstaende sind hier zentral als Design-Tokens definiert, damit sie leicht
+   angepasst werden koennen.
+   ========================================================================== */
+
+@import 'tailwindcss';
+
+/* -----------------------------------------------------------------------------
+   Design-Tokens
+   Die @theme-Tokens erzeugen automatisch Tailwind-Utilities
+   (z. B. erzeugt --color-ink-900 die Klassen bg-ink-900 / text-ink-900 ...).
+   -------------------------------------------------------------------------- */
+@theme {
+  /* Schriften – lokal eingebunden ueber @fontsource (keine Google-Fonts-CDN) */
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, Arial, sans-serif;
+  --font-serif: 'Source Serif 4 Variable', ui-serif, Georgia, 'Times New Roman',
+    serif;
+
+  /* Basis: warmes, ruhiges Off-White fuer viel Weissraum */
+  --color-paper: #f7f4ef;
+  --color-surface: #ffffff;
+  --color-line: #e7e0d6;
+
+  /* Tiefes Slate/Navy als seriöse Basisfarbe */
+  --color-ink-50: #eef1f6;
+  --color-ink-100: #d6dde8;
+  --color-ink-600: #33455f;
+  --color-ink-700: #1d3050;
+  --color-ink-800: #14233b;
+  --color-ink-900: #0f1d33;
+
+  /* Warmer, dezenter Akzent (Karamell/Terrakotta) */
+  --color-accent-50: #faf3ec;
+  --color-accent-100: #f3e3d5;
+  --color-accent-200: #e7c6ab;
+  --color-accent-500: #b9774a;
+  --color-accent-600: #a05f33;
+  --color-accent-700: #8a4f2b; /* fuer Text auf hellem Grund (AA-konform) */
+
+  /* Neutrale Textfarben */
+  --color-muted: #586478;
+
+  /* Sanfte Schatten */
+  --shadow-card: 0 1px 2px rgb(15 29 51 / 0.04), 0 8px 24px rgb(15 29 51 / 0.06);
+  --shadow-card-hover: 0 2px 4px rgb(15 29 51 / 0.06),
+    0 14px 36px rgb(15 29 51 / 0.1);
+}
+
+/* -----------------------------------------------------------------------------
+   Basis-Stile
+   -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Wer reduzierte Bewegung wuenscht, bekommt keine Animationen/Smooth-Scroll */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-paper);
+    /* Verhindert horizontales Scrollen durch Deko-Elemente (bricht sticky nicht). */
+    overflow-x: clip;
+    /* Feine Papier-Körnung (inline-SVG-Rauschen, kein externer Request).
+       Sichtbarkeit über `feFuncA slope` steuerbar (aktuell 0.5 = deutlich
+       sichtbar, aber dezent; höher = stärker). */
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='200'%20height='200'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.8'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20type='saturate'%20values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type='linear'%20slope='0.5'%20intercept='0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    color: var(--color-ink-800);
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    color: var(--color-ink-900);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Gut sichtbarer, einheitlicher Fokus-Ring fuer Tastatur-Navigation (A11y) */
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 3px solid var(--color-accent-600);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Bilder skalieren standardmaessig responsiv */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Wiederverwendbare Komponenten-Klassen
+   -------------------------------------------------------------------------- */
+@layer components {
+  /* Inhaltscontainer mit konsistenter Maximalbreite */
+  .container-page {
+    width: 100%;
+    max-width: 72rem; /* ~1152px */
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  /* Schmaler Lesecontainer fuer Fliesstext */
+  .container-prose {
+    width: 100%;
+    max-width: 44rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 0.6rem;
+    font-weight: 600;
+    line-height: 1.1;
+    transition: background-color 0.2s ease, color 0.2s ease,
+      transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary {
+    background-color: var(--color-accent-600);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-accent-700);
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-ink-900);
+    border: 1px solid var(--color-ink-100);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-ink-50);
+    border-color: var(--color-ink-600);
+  }
+  .btn-on-dark {
+    background-color: #fff;
+    color: var(--color-ink-900);
+  }
+  .btn-on-dark:hover {
+    background-color: var(--color-accent-50);
+    transform: translateY(-1px);
+  }
+
+  /* Karten */
+  .card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.25s ease, transform 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .card-interactive:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-3px);
+    border-color: var(--color-accent-200);
+  }
+
+  /* Kleines Label/Eyebrow ueber Ueberschriften */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-700);
+  }
+
+  /* Lesefreundlicher Fliesstext-Block */
+  .prose-block {
+    color: var(--color-ink-700);
+    font-size: 1.075rem;
+  }
+  .prose-block p + p {
+    margin-top: 1.1rem;
+  }
+
+  /* Sichtbar nur fuer Screenreader (Skip-Link, versteckte Labels) */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 100;
+    background: var(--color-ink-900);
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    transition: top 0.2s ease;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Sanfte Einblend-Animation beim Scrollen (per IntersectionObserver).
+     Weiche Ease-out-Kurve für einen ruhigen, hochwertigen Eindruck. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Gestaffeltes Einblenden der direkten Kinder (z. B. Karten-Grids). */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .stagger.is-visible > * {
+    opacity: 1;
+    transform: none;
+  }
+  .stagger.is-visible > *:nth-child(1) { transition-delay: 0.05s; }
+  .stagger.is-visible > *:nth-child(2) { transition-delay: 0.12s; }
+  .stagger.is-visible > *:nth-child(3) { transition-delay: 0.19s; }
+  .stagger.is-visible > *:nth-child(4) { transition-delay: 0.26s; }
+  .stagger.is-visible > *:nth-child(5) { transition-delay: 0.33s; }
+  .stagger.is-visible > *:nth-child(6) { transition-delay: 0.4s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .stagger > * {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}

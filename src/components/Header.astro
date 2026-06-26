@@ -1,0 +1,143 @@
+---
+/* Kopfbereich mit Single-Page-Navigation (Anker-Links + Scrollspy).
+   - Desktop & Mobil teilen sich dieselben Links.
+   - Scrollspy hebt den aktuell sichtbaren Abschnitt hervor (nur JS-Komfort,
+     funktioniert auch ohne JS als normale Sprungmarken). */
+import { nav, site } from '../data/site';
+import { withBase } from '../lib/url';
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur transition-shadow"
+>
+  <div class="container-page flex items-center justify-between gap-4 py-3">
+    <!-- Wortmarke -->
+    <a href={withBase('/#top')} class="group flex flex-col leading-none" aria-label={`${site.name} – nach oben`}>
+      <span class="font-serif text-2xl font-semibold tracking-tight text-ink-900">Multiblatt</span>
+      <span class="mt-0.5 hidden text-[0.7rem] font-medium uppercase tracking-[0.18em] text-accent-700 sm:block">
+        Büro &amp; Schreibservice
+      </span>
+    </a>
+
+    <!-- Desktop-Navigation -->
+    <nav class="hidden lg:block" aria-label="Hauptnavigation">
+      <ul class="flex items-center gap-1">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={withBase(`/#${item.id}`)}
+                data-spy={item.id}
+                class="nav-link inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 hover:text-accent-700"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="ml-2">
+          <a href={withBase('/#kontakt')} class="btn btn-primary text-sm">Anfrage senden</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Mobil: Menü-Button -->
+    <button
+      type="button"
+      id="menu-toggle"
+      class="inline-flex items-center justify-center rounded-lg p-2 text-ink-800 hover:bg-ink-50 lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="sr-only">Menü öffnen</span>
+      <svg id="icon-open" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+      <svg id="icon-close" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" d="M6 6l12 12M18 6 6 18" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobil-Navigation -->
+  <nav id="mobile-menu" class="hidden border-t border-line bg-paper lg:hidden" aria-label="Hauptnavigation (mobil)">
+    <ul class="container-page space-y-1 py-4">
+      {
+        nav.map((item) => (
+          <li>
+            <a
+              href={withBase(`/#${item.id}`)}
+              data-spy={item.id}
+              class="nav-link block rounded-lg px-3 py-2 font-medium text-ink-800 hover:bg-ink-50"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-2">
+        <a href={withBase('/#kontakt')} class="btn btn-primary w-full">Anfrage senden</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  /* Aktiver Scrollspy-Zustand */
+  .nav-link.is-active {
+    color: var(--color-accent-700);
+    background-color: var(--color-accent-50);
+  }
+  /* Sanfter Schatten, sobald gescrollt wird */
+  #site-header.is-scrolled {
+    box-shadow: 0 1px 0 0 var(--color-line), 0 8px 24px rgb(15 29 51 / 0.06);
+  }
+</style>
+
+<script>
+  // --- Mobile-Menü ---
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  const setMenu = (open: boolean) => {
+    menu?.classList.toggle('hidden', !open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.querySelector('.sr-only')!.replaceChildren(open ? 'Menü schließen' : 'Menü öffnen');
+    iconOpen?.classList.toggle('hidden', open);
+    iconClose?.classList.toggle('hidden', !open);
+  };
+  toggle?.addEventListener('click', () =>
+    setMenu(menu?.classList.contains('hidden') ?? false),
+  );
+  // Beim Klick auf einen Link das Menü schließen
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+
+  // --- Schatten beim Scrollen ---
+  const header = document.getElementById('site-header');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // --- Scrollspy ---
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav-link[data-spy]'));
+  const sections = links
+    .map((l) => document.getElementById(l.dataset.spy!))
+    .filter((el): el is HTMLElement => !!el);
+
+  if (sections.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.id;
+          links.forEach((l) => l.classList.toggle('is-active', l.dataset.spy === id));
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((s) => observer.observe(s));
+  }
+</script>

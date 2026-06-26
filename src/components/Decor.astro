@@ -1,0 +1,22 @@
+---
+/* Dekorativer Kreis zum Auflockern des Hintergrunds.
+   - `ring` = nur Umriss, sonst gefüllte Fläche (Füllfarbe per `class`, z. B. bg-accent-100).
+   - Immer rein dekorativ (aria-hidden), ohne Maus-Interaktion.
+   - Gehört in eine Deko-Ebene mit `-z-10` innerhalb einer `relative isolate`-Sektion,
+     damit der Kreis hinter dem Inhalt, aber über dem Sektions-Hintergrund liegt. */
+interface Props {
+  class?: string;
+  ring?: boolean;
+}
+const { class: className = '', ring = false } = Astro.props;
+---
+
+<div
+  aria-hidden="true"
+  class:list={[
+    'pointer-events-none absolute rounded-full',
+    ring && 'border-2 border-accent-200',
+    className,
+  ]}
+>
+</div>

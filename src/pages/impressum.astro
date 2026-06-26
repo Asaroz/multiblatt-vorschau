@@ -1,0 +1,72 @@
+---
+/* Impressum – LAYOUT-PLATZHALTER.
+   Die Pflichtangaben sind strukturell angelegt und mit den bekannten Stammdaten
+   vorbefuellt. Rechtsverbindliche Vollstaendigkeit (z. B. USt-IdNr.,
+   Aufsichtsbehoerde, Berufshaftpflicht) muss die Inhaberin bzw. ein
+   Impressums-Generator/eine Rechtsberatung ergaenzen. */
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Offen from '../components/Offen.astro';
+import { contact } from '../data/site';
+---
+
+<Base title="Impressum" description="Impressum von Multiblatt – Angela Aldenhoff, Rees.">
+  <PageHero
+    eyebrow="Rechtliches"
+    title="Impressum"
+    crumbs={[{ label: 'Start', href: '/' }, { label: 'Impressum' }]}
+  />
+
+  <section class="container-prose py-16">
+    <Offen>
+      Rechtlich vollständiges Impressum. Stammdaten sind eingetragen; die
+      Pflichtangaben sind noch auf Vollständigkeit und Richtigkeit zu prüfen.
+    </Offen>
+
+    <div class="prose-block mt-10 space-y-8">
+      <div>
+        <h2 class="text-xl font-semibold text-ink-900">Angaben gemäß § 5 DDG</h2>
+        <p class="mt-3">
+          {contact.company}<br />
+          {contact.owner}<br />
+          {contact.street}<br />
+          {contact.zip} {contact.city}<br />
+          {contact.country}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-ink-900">Kontakt</h2>
+        <p class="mt-3">
+          Telefon: {contact.phoneLabel}<br />
+          Mobil: {contact.mobileLabel}<br />
+          Fax: {contact.faxLabel}<br />
+          E-Mail: {contact.email}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-ink-900">Umsatzsteuer-ID</h2>
+        <Offen>
+          Umsatzsteuer-Identifikationsnummer gemäß § 27&nbsp;a UStG – nur nötig,
+          falls vorhanden.
+        </Offen>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-ink-900">
+          Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
+        </h2>
+        <p class="mt-3">
+          {contact.owner}<br />
+          {contact.street}, {contact.zip} {contact.city}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-ink-900">Haftung &amp; Urheberrecht</h2>
+        <Offen>Standardtexte zu Haftung für Inhalte/Links und Urheberrecht stehen noch aus.</Offen>
+      </div>
+    </div>
+  </section>
+</Base>

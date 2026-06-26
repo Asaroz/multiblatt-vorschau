@@ -1,0 +1,58 @@
+---
+/* Voll-breiter Bild-Trenner mit dezentem Parallax-Effekt.
+   - Das Hintergrundbild bewegt sich beim Scrollen sanft (per JS in index.astro,
+     `[data-parallax]`). Bei `prefers-reduced-motion` bleibt es ruhig.
+   - Inhalt wird per <slot> übergeben und liegt über einem Abdunkel-Verlauf.
+
+   PLATZHALTER: Auch diese Bilder sind Stockfotos und mit „Platzhalter"
+   markiert – nicht fürs finale Produkt. */
+interface Props {
+  src: string;
+  alt: string;
+  id?: string;
+  /** Min-Höhe des Trenners (Tailwind-Klasse). */
+  minH?: string;
+  badge?: string | null;
+  /** Abdunkelungs-Ebene (Tailwind-Klassen) – für helle Bilder stärker wählen. */
+  overlay?: string;
+}
+const {
+  src,
+  alt,
+  id,
+  minH = 'min-h-[20rem] sm:min-h-[34rem]',
+  badge = 'Platzhalter',
+  overlay = 'bg-gradient-to-r from-ink-900/85 via-ink-900/70 to-ink-900/45',
+} = Astro.props;
+---
+
+<section id={id} class:list={['relative isolate flex items-center overflow-hidden', minH]}>
+  <!-- Parallax-Bildebene (etwas höher als der Trenner, damit beim Verschieben kein Rand entsteht) -->
+  <div class="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true">
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+      data-parallax
+      class="absolute left-0 top-[-45%] h-[190%] w-full object-cover will-change-transform"
+    />
+  </div>
+  <!-- Abdunkelung für Kontrast -->
+  <div class:list={['absolute inset-0 -z-10', overlay]} aria-hidden="true"></div>
+
+  {
+    badge && (
+      <span class="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-ink-900/85 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-white backdrop-blur">
+        <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M10 2a1 1 0 0 1 .92.61l1.7 4.06 4.39.36a1 1 0 0 1 .57 1.75l-3.34 2.86 1.02 4.29a1 1 0 0 1-1.49 1.08L10 14.98l-3.77 2.29a1 1 0 0 1-1.49-1.08l1.02-4.29-3.34-2.86a1 1 0 0 1 .57-1.75l4.39-.36 1.7-4.06A1 1 0 0 1 10 2Z" />
+        </svg>
+        {badge}
+      </span>
+    )
+  }
+
+  <div class="container-page py-16 text-white sm:py-20">
+    <slot />
+  </div>
+</section>

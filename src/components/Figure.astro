@@ -1,0 +1,54 @@
+---
+/* Bild-Wrapper mit Seitenverhältnis, Rundung und – für Stockfotos – einem
+   gut sichtbaren „Platzhalter"-Badge.
+
+   PLATZHALTER-HINWEIS: Alle mit badge="Platzhalter" markierten Bilder sind
+   temporäre Stockfotos und gehören NICHT ins finale Produkt. Zum Entfernen
+   aller Badges genügt es, in der jeweiligen Verwendung `badge={null}` zu setzen
+   bzw. dieses Markup anzupassen. */
+interface Props {
+  src: string;
+  alt: string;
+  /** Tailwind-Aspect-Klasse, z. B. "aspect-[4/3]" oder "aspect-[3/4]". */
+  ratio?: string;
+  /** Badge-Text; `null` = kein Badge. Standard: "Platzhalter". */
+  badge?: string | null;
+  /** Bild sofort laden (z. B. Hero „above the fold"). */
+  eager?: boolean;
+  class?: string;
+}
+const {
+  src,
+  alt,
+  ratio = 'aspect-[4/3]',
+  badge = 'Platzhalter',
+  eager = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<figure
+  class:list={[
+    'relative overflow-hidden rounded-2xl border border-line bg-ink-50 shadow-[var(--shadow-card)]',
+    ratio,
+    className,
+  ]}
+>
+  <img
+    src={src}
+    alt={alt}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    class="h-full w-full object-cover"
+  />
+  {
+    badge && (
+      <figcaption class="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-ink-900/85 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-white backdrop-blur">
+        <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M10 2a1 1 0 0 1 .92.61l1.7 4.06 4.39.36a1 1 0 0 1 .57 1.75l-3.34 2.86 1.02 4.29a1 1 0 0 1-1.49 1.08L10 14.98l-3.77 2.29a1 1 0 0 1-1.49-1.08l1.02-4.29-3.34-2.86a1 1 0 0 1 .57-1.75l4.39-.36 1.7-4.06A1 1 0 0 1 10 2Z" />
+        </svg>
+        {badge}
+      </figcaption>
+    )
+  }
+</figure>

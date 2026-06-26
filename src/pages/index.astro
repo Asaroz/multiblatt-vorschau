@@ -1,0 +1,533 @@
+---
+/* Startseite als SINGLE PAGE.
+   Alle „zusammenfassbaren" Bereiche (Leistungen, Über uns, Anfahrt, Kontakt)
+   liegen als Abschnitte auf dieser einen Seite – Navigation per Anker + Scrollspy.
+   Nur die Rechtstexte (Impressum/Datenschutz) bleiben eigene Seiten.
+
+   BILDER: Stockfotos in /images/placeholder/ sind PLATZHALTER (sichtbar als
+   „Platzhalter"-Badge markiert) und gehören nicht ins finale Produkt.
+   Angelas Foto unter „Über mich" stammt von der aktuellen Website. */
+import Base from '../layouts/Base.astro';
+import Figure from '../components/Figure.astro';
+import ParallaxBand from '../components/ParallaxBand.astro';
+import Decor from '../components/Decor.astro';
+import Offen from '../components/Offen.astro';
+import { site, problems, services, values, contact, media } from '../data/site';
+---
+
+<Base>
+  <!-- ============================ HERO ============================ -->
+  <section id="top" class="relative overflow-hidden">
+    <!-- dezente, weiche Akzent-Flächen für Tiefe -->
+    <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+      <div class="absolute inset-0 bg-gradient-to-b from-accent-50/70 via-paper/30 to-transparent"></div>
+      <div class="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-accent-100/60 blur-3xl"></div>
+    </div>
+
+    <div class="container-page grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
+      <div class="reveal">
+        <p class="eyebrow mb-4">Büro &amp; Schreibservice · Rees</p>
+        <h1 class="text-5xl font-semibold leading-[1.05] sm:text-6xl md:text-7xl">Multiblatt</h1>
+        <p class="mt-5 font-serif text-xl text-accent-700 sm:text-2xl">
+          schreibt – sortiert – organisiert – optimiert – vermittelt
+        </p>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-700">
+          {site.shortIntro} Verschwiegenheit und Diskretion sind dabei
+          selbstverständlich.
+        </p>
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a href="#leistungen" class="btn btn-primary w-full sm:w-auto">Leistungen entdecken</a>
+          <a href="#kontakt" class="btn btn-secondary w-full sm:w-auto">Kontakt aufnehmen</a>
+        </div>
+        <!-- Vertrauens-Mini-Reihe -->
+        <ul class="stagger mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-ink-700">
+          {
+            ['Diskret & vertraulich', 'Pünktlich', 'Flexibel', 'Individuell'].map((t) => (
+              <li class="flex items-center gap-2">
+                <svg class="h-4 w-4 text-accent-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.1 3.09 6.8-6.79a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" />
+                </svg>
+                {t}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Hero-Bild + schwebende Karte -->
+      <div class="reveal relative mx-auto w-full max-w-md lg:max-w-none">
+        <div class="absolute -left-5 -top-5 -z-10 hidden h-full w-full rounded-3xl bg-accent-100/70 sm:block" aria-hidden="true"></div>
+        <Figure
+          src={media.hero}
+          alt="Aufgeräumter Schreibtisch mit Notizbuch, Füller und Brille"
+          ratio="aspect-[4/3]"
+          eager={true}
+          class="rounded-3xl"
+        />
+        <div class="absolute -bottom-5 -right-3 hidden rounded-2xl border border-line bg-surface px-5 py-4 shadow-[var(--shadow-card-hover)] sm:block">
+          <p class="font-serif text-2xl font-semibold text-ink-900">Ordnung</p>
+          <p class="text-sm text-muted">statt Papierstapel</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEME / BEDARF ===================== -->
+  <section id="bedarf" class="container-page relative isolate scroll-mt-24 overflow-hidden py-16 sm:py-20">
+    <div class="pointer-events-none absolute inset-0 -z-10 hidden sm:block" aria-hidden="true">
+      <Decor class="right-4 top-12 h-40 w-40 bg-accent-100" />
+      <Decor ring class="left-2 top-16 h-14 w-14" />
+    </div>
+    <div class="reveal max-w-2xl">
+      <p class="eyebrow mb-3">Kommt Ihnen das bekannt vor?</p>
+      <h2 class="text-3xl font-semibold sm:text-4xl">Wenn der Papierkram über den Kopf wächst</h2>
+      <p class="mt-4 text-lg text-ink-700">
+        Für Selbstständige, kleine Betriebe und Privatpersonen – überall dort, wo
+        Zeit, Struktur oder Personal fehlen.
+      </p>
+    </div>
+    <ul class="stagger mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        problems.map((p) => (
+          <li class="card flex items-start gap-3 p-6">
+            <span class="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-accent-50 text-accent-700" aria-hidden="true">
+              <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 2a1 1 0 0 1 2 0v9a1 1 0 1 1-2 0V2Zm1 13.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z" />
+              </svg>
+            </span>
+            <span class="text-ink-700">{p}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- =========== TRENNER: ÜBERLEITUNG Problem → Lösung (Parallax, hell) =========== -->
+  <ParallaxBand
+    src={media.bandIntro}
+    alt="Ruhiges, aufgeräumtes Büro"
+    minH="min-h-[20rem] sm:min-h-[24rem]"
+    overlay="bg-gradient-to-r from-ink-900/85 via-ink-900/75 to-ink-900/60"
+  >
+    <div class="reveal mx-auto max-w-2xl text-center">
+      <p class="eyebrow mb-4 !text-accent-200">Die Lösung</p>
+      <h2 class="font-serif text-3xl font-semibold !text-white sm:text-4xl">
+        Multiblatt unterstützt Sie bei Ihrem Engpass
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-100/85">
+        Schreiben, sortieren, organisieren, optimieren, vermitteln – damit Sie
+        wieder Zeit für das Wesentliche haben.
+      </p>
+      <a href="#leistungen" class="btn btn-on-dark mt-7">Leistungen ansehen</a>
+    </div>
+  </ParallaxBand>
+
+  <!-- ===================== LEISTUNGEN ===================== -->
+  <section id="leistungen" class="relative isolate scroll-mt-24 overflow-hidden border-y border-line bg-accent-50/40">
+    <div class="pointer-events-none absolute inset-0 -z-10 hidden sm:block" aria-hidden="true">
+      <Decor class="right-8 top-14 h-48 w-48 bg-accent-100" />
+      <Decor class="left-4 top-24 h-6 w-6 bg-accent-200" />
+    </div>
+    <div class="container-page py-16 sm:py-24">
+      <div class="reveal max-w-2xl">
+        <p class="eyebrow mb-3">Dienstleistungen</p>
+        <h2 class="text-3xl font-semibold sm:text-4xl">Drei Bereiche, ein Ziel: Ordnung</h2>
+        <p class="mt-4 text-lg text-ink-700">
+          Jede Aufgabe wird individuell auf Ihren Bedarf abgestimmt – einmalig
+          bei einer Spitze oder regelmäßig als verlängerte Schreibkraft.
+        </p>
+      </div>
+
+      <div class="mt-14 space-y-16 lg:space-y-24">
+        {
+          services.map((service, i) => {
+            const reverse = i % 2 === 1;
+            return (
+              <article class="reveal grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+                <div class:list={['relative', reverse && 'lg:order-2']}>
+                  <span class="absolute -left-3 -top-6 font-serif text-6xl text-accent-200 sm:text-7xl" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <Figure src={service.image} alt={`Symbolbild: ${service.title}`} ratio="aspect-[4/3]" class="relative" />
+                </div>
+                <div class:list={[reverse && 'lg:order-1']}>
+                  <h3 class="text-2xl font-semibold text-ink-900 sm:text-3xl">{service.title}</h3>
+                  <p class="mt-2 font-serif text-lg text-accent-700">{service.hook}</p>
+                  <div class="prose-block mt-4">
+                    {service.body.map((p) => <p>{p}</p>)}
+                  </div>
+                  <ul class="mt-6 flex flex-wrap gap-2">
+                    {service.examples.map((ex) => (
+                      <li class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink-700">
+                        <svg class="h-3.5 w-3.5 text-accent-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.1 3.09 6.8-6.79a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" />
+                        </svg>
+                        {ex}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =============== TRENNER: STATEMENT (Parallax) =============== -->
+  <ParallaxBand src={media.bandStatement} alt="Schreibtisch mit Notizbuch, Stiften, Lupe und Kaffee">
+    <blockquote class="reveal mx-auto max-w-3xl text-center">
+      <p class="eyebrow mb-4 !text-accent-200">Was Multiblatt ausmacht</p>
+      <p class="font-serif text-2xl font-semibold leading-snug sm:text-3xl md:text-4xl">
+        „Verschwiegenheit und Diskretion sind selbstverständlich –
+        Gewissenhaftigkeit, Pünktlichkeit und Flexibilität haben oberste Priorität."
+      </p>
+    </blockquote>
+  </ParallaxBand>
+
+  <!-- ===================== ÜBER UNS ===================== -->
+  <section id="ueber" class="container-page relative isolate scroll-mt-24 overflow-hidden py-16 sm:py-24">
+    <div class="pointer-events-none absolute inset-0 -z-10 hidden sm:block" aria-hidden="true">
+      <Decor ring class="left-2 top-12 h-16 w-16" />
+      <Decor class="left-28 top-16 h-5 w-5 bg-accent-200" />
+    </div>
+    <!-- Über Multiblatt + Werte -->
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div class="reveal">
+        <p class="eyebrow mb-3">Über Multiblatt</p>
+        <h2 class="text-3xl font-semibold sm:text-4xl">
+          Schreiben, sortieren, organisieren – individuell für Sie
+        </h2>
+        <div class="prose-block mt-6">
+          <p>
+            Multiblatt schreibt, sortiert, organisiert, optimiert und vermittelt.
+            Verschwiegenheit und Diskretion sind selbstverständlich.
+          </p>
+          <p>
+            Gewissenhaftigkeit, Pünktlichkeit und Flexibilität haben oberste
+            Priorität. Die Tätigkeiten werden individuell auf die Bedürfnisse der
+            Auftraggeber angepasst.
+          </p>
+        </div>
+        <ul class="stagger mt-8 grid gap-4 sm:grid-cols-2">
+          {
+            values.map((v) => (
+              <li class="card p-5">
+                <h3 class="text-base font-semibold text-ink-900">{v.title}</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink-700">{v.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="reveal relative mx-auto w-full max-w-sm lg:max-w-none lg:self-center">
+        <div class="absolute -right-5 -top-5 -z-10 hidden h-full w-full rounded-3xl bg-accent-100/60 sm:block" aria-hidden="true"></div>
+        <Figure
+          src={media.trust}
+          alt="Bürodienstleisterin mit Aktenschrank im Hintergrund"
+          ratio="aspect-[3/4]"
+          class="rounded-3xl"
+        />
+      </div>
+    </div>
+
+    <!-- Über mich (Angela) -->
+    <div class="reveal mt-20 grid items-center gap-10 rounded-3xl border border-line bg-surface p-8 sm:p-12 lg:grid-cols-[auto_1fr] lg:gap-14">
+      <div class="mx-auto w-full max-w-[14rem]">
+        {/* Echtes Foto von der aktuellen Website – kein Stockbild. */}
+        <Figure
+          src={media.angela}
+          alt="Angela Aldenhoff, Inhaberin von Multiblatt"
+          ratio="aspect-[4/5]"
+          badge="Foto: aktuelle Website"
+        />
+      </div>
+      <div>
+        <p class="eyebrow mb-3">Über mich</p>
+        <h2 class="text-2xl font-semibold sm:text-3xl">Angela Aldenhoff</h2>
+        {/* Platzhaltertext – finaler Vorstellungstext steht noch aus. */}
+        <div class="prose-block mt-5">
+          <p>
+            Mit Multiblatt unterstütze ich Selbstständige, kleine Betriebe und
+            Privatpersonen überall dort, wo Schreibarbeiten, Büroorganisation
+            oder der private Papierkram Zeit und Nerven kosten.
+          </p>
+          <p>
+            Mir ist wichtig, dass Sie sich auf Diskretion und Sorgfalt verlassen
+            können. Jede Aufgabe gehe ich gewissenhaft an und stimme sie
+            individuell auf Ihre Situation ab.
+          </p>
+        </div>
+        <Offen>Persönlicher Vorstellungstext (Werdegang, Motivation) – aktueller Text ist Platzhalter.</Offen>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANFAHRT ===================== -->
+  <section id="anfahrt" class="scroll-mt-24 border-y border-line bg-ink-50/50">
+    <div class="container-page py-16 sm:py-24">
+      <div class="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+        <div class="reveal">
+          <p class="eyebrow mb-3">Anfahrt</p>
+          <h2 class="text-3xl font-semibold sm:text-4xl">So finden Sie zu Multiblatt</h2>
+          <address class="mt-6 text-lg not-italic leading-relaxed text-ink-800">
+            {contact.company}<br />
+            {contact.owner}<br />
+            {contact.street}<br />
+            {contact.zip} {contact.city}
+          </address>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a id="route-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              Route planen (OpenStreetMap)
+            </a>
+            <a href={`tel:${contact.phoneHref}`} class="btn btn-secondary">{contact.phoneLabel}</a>
+          </div>
+          <p class="mt-3 text-xs text-muted">Öffnet OpenStreetMap in einem neuen Tab.</p>
+        </div>
+
+        <!-- Datenschutzfreundliche Karte (Klick zum Laden) -->
+        <div class="reveal">
+          <div id="map-wrap" class="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line bg-ink-50">
+            <div id="map-placeholder" class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
+              <svg class="h-14 w-14 text-accent-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                <path stroke-linejoin="round" d="m9 3 6 2 6-2v15l-6 2-6-2-6 2V5l6-2Z" />
+                <path d="M9 3v15M15 5v15" />
+                <circle cx="12" cy="11" r="2.2" fill="currentColor" stroke="none" />
+              </svg>
+              <div>
+                <p class="font-semibold text-ink-900">Karte aus Datenschutzgründen nicht automatisch geladen</p>
+                <p class="mt-1 text-sm text-muted">
+                  Mit Klick laden Sie die Karte von OpenStreetMap. Dabei wird eine
+                  Verbindung zu deren Servern aufgebaut.
+                </p>
+              </div>
+              <button id="map-load" type="button" class="btn btn-primary">Karte laden</button>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-muted">Kartendaten © OpenStreetMap-Mitwirkende.</p>
+          <Offen>
+            Genaue Kartenposition (Koordinaten der Hausnummer) noch nicht
+            bestätigt – Markierung derzeit näherungsweise.
+          </Offen>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============== TRENNER: CTA (Parallax) =============== -->
+  <ParallaxBand
+    src={media.bandCta}
+    alt="Zwei Personen besprechen Unterlagen am Schreibtisch"
+    minH="min-h-[20rem] sm:min-h-[30rem]"
+  >
+    <div class="reveal mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-semibold !text-white sm:text-4xl">Bereit für weniger Papierkram?</h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-100/85">
+        Schildern Sie kurz Ihr Anliegen – Sie erhalten zeitnah eine
+        unverbindliche Rückmeldung.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="#kontakt" class="btn btn-on-dark">Anfrage senden</a>
+        <a href={`tel:${contact.phoneHref}`} class="btn btn-secondary border-white/30 text-white hover:bg-white/10">
+          {contact.phoneLabel}
+        </a>
+      </div>
+    </div>
+  </ParallaxBand>
+
+  <!-- ===================== KONTAKT ===================== -->
+  <section id="kontakt" class="container-page relative isolate scroll-mt-24 overflow-hidden py-16 sm:py-24">
+    <div class="pointer-events-none absolute inset-0 -z-10 hidden sm:block" aria-hidden="true">
+      <Decor class="left-4 top-14 h-40 w-40 bg-accent-50" />
+    </div>
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+      <div class="reveal">
+        <p class="eyebrow mb-3">Kontakt</p>
+        <h2 class="text-3xl font-semibold sm:text-4xl">Lassen Sie uns über Ihre Unterlagen sprechen</h2>
+        <p class="mt-4 text-ink-700">
+          Haben Sie Fragen, Wünsche oder Anregungen? Bitte nehmen Sie Kontakt mit
+          uns auf, wir helfen Ihnen gerne weiter!
+        </p>
+        <dl class="mt-8 space-y-5">
+          <div class="flex items-start gap-4">
+            <span class="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-accent-50 text-accent-700" aria-hidden="true">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5C2.5 4 3.7 3 5.2 3h1.6c.7 0 1.3.5 1.5 1.2l.8 3c.2.6 0 1.3-.5 1.7l-1.3 1c.9 1.9 2.5 3.5 4.4 4.4l1-1.3c.4-.5 1-.7 1.7-.5l3 .8c.7.2 1.2.8 1.2 1.5v1.6c0 1.5-1 2.7-2.5 2.7C10.6 21.4 2.6 13.4 2.5 5.5Z"/></svg>
+            </span>
+            <div>
+              <dt class="text-sm font-medium text-muted">Telefon</dt>
+              <dd><a class="text-lg text-ink-900 hover:text-accent-700" href={`tel:${contact.phoneHref}`}>{contact.phoneLabel}</a></dd>
+              <dd class="text-sm"><a class="text-ink-700 hover:text-accent-700" href={`tel:${contact.mobileHref}`}>Mobil: {contact.mobileLabel}</a></dd>
+              <dd class="text-sm text-muted">Fax: {contact.faxLabel}</dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-accent-50 text-accent-700" aria-hidden="true">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="m3 7 9 6 9-6"/></svg>
+            </span>
+            <div>
+              <dt class="text-sm font-medium text-muted">E-Mail</dt>
+              <dd><a class="text-lg text-ink-900 hover:text-accent-700" href={`mailto:${contact.email}`}>{contact.email}</a></dd>
+            </div>
+          </div>
+          <div class="rounded-xl border border-line bg-surface p-5">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-accent-700">Sprechzeiten</h3>
+            <ul class="mt-3 space-y-1 text-sm text-ink-700">
+              {contact.hours.map((h) => (
+                <li class="flex justify-between gap-4"><span>{h.day}</span><span>{h.time}</span></li>
+              ))}
+            </ul>
+            <p class="mt-2 text-xs text-muted">{contact.hoursNote}</p>
+          </div>
+          <Offen>Vollständige Sprechzeiten – bisher nur Freitag 08:00–12:00 Uhr bekannt.</Offen>
+        </dl>
+      </div>
+
+      <!-- Formular (Frontend-Demo) -->
+      <div class="reveal">
+        <div class="card p-7 sm:p-9">
+          <h3 class="text-2xl font-semibold">Anfrage senden</h3>
+          <p class="mt-2 text-sm text-muted">
+            Wir freuen uns über Ihre Nachricht! Felder mit
+            <span class="text-accent-700">*</span> sind Pflichtfelder.
+          </p>
+          {/* HINWEIS: Reines Frontend-Formular ohne echten Versand. Für den
+              Live-Betrieb serverseitigen Endpunkt anbinden, Auslieferung über HTTPS. */}
+          <form id="contact-form" class="mt-6 space-y-5" novalidate>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label class="mb-1.5 block text-sm font-medium text-ink-800" for="name">Name <span class="text-accent-700">*</span></label>
+                <input id="name" name="name" type="text" required autocomplete="name" class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600" />
+              </div>
+              <div>
+                <label class="mb-1.5 block text-sm font-medium text-ink-800" for="email">E-Mail <span class="text-accent-700">*</span></label>
+                <input id="email" name="email" type="email" required autocomplete="email" class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600" />
+              </div>
+              <div>
+                <label class="mb-1.5 block text-sm font-medium text-ink-800" for="phone">Telefon</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600" />
+              </div>
+              <div>
+                <label class="mb-1.5 block text-sm font-medium text-ink-800" for="topic">Anliegen</label>
+                <select id="topic" name="topic" class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600">
+                  <option value="">Bitte wählen …</option>
+                  {services.map((s) => <option value={s.slug}>{s.title}</option>)}
+                  <option value="sonstiges">Sonstiges</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="mb-1.5 block text-sm font-medium text-ink-800" for="message">Nachricht <span class="text-accent-700">*</span></label>
+              <textarea id="message" name="message" rows="5" required class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600"></textarea>
+            </div>
+            <label class="flex items-start gap-3 text-sm text-ink-700">
+              <input type="checkbox" name="consent" required class="mt-1 h-4 w-4 rounded border-line text-accent-600" />
+              <span>Hiermit erkläre ich mich einverstanden, dass meine in das Kontaktformular eingegebenen Daten elektronisch gespeichert und zum Zweck der Kontaktaufnahme verarbeitet und genutzt werden. Mir ist bekannt, dass ich meine Einwilligung jederzeit widerrufen kann. <span class="text-accent-700">*</span></span>
+            </label>
+            <button type="submit" class="btn btn-primary w-full">Anfrage absenden</button>
+            <p id="form-status" role="status" aria-live="polite" class="hidden rounded-lg border px-4 py-3 text-sm"></p>
+            <p class="flex items-center gap-2 text-xs text-muted">
+              <svg class="h-4 w-4 flex-none text-accent-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path stroke-linecap="round" d="M8 11V8a4 4 0 1 1 8 0v3"/></svg>
+              Übertragung verschlüsselt über HTTPS. Ihre Daten werden ausschließlich zur Bearbeitung der Anfrage verwendet.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // ---------- Scroll-Reveal (inkl. gestaffeltem .stagger) ----------
+  const reveals = document.querySelectorAll('.reveal, .stagger');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            obs.unobserve(e.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px' },
+    );
+    reveals.forEach((el) => io.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add('is-visible'));
+  }
+
+  // ---------- Dezenter Parallax für die Bild-Trenner ----------
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Parallax nur auf großen Screens (auf Touch/Mobil ruckelt es eher und bringt wenig).
+  const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+  const parallaxEls = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
+  if (!prefersReduced && isDesktop && parallaxEls.length) {
+    const SPEED = 150; // maximale Verschiebung in px (bleibt im Bild-Puffer von 45 %)
+    let ticking = false;
+    const apply = () => {
+      const vh = window.innerHeight;
+      for (const el of parallaxEls) {
+        const wrap = el.parentElement;
+        if (!wrap) continue;
+        const r = wrap.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) continue; // nicht im Blick -> auslassen
+        const progress = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2); // -1..1
+        el.style.transform = `translate3d(0, ${(-progress * SPEED).toFixed(1)}px, 0)`;
+      }
+      ticking = false;
+    };
+    const onScrollP = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(apply);
+      }
+    };
+    window.addEventListener('scroll', onScrollP, { passive: true });
+    window.addEventListener('resize', onScrollP, { passive: true });
+    apply();
+  }
+
+  // ---------- Anfahrt: Route-Link + Karte erst nach Klick ----------
+  const lat = 51.79171;
+  const lon = 6.3564148;
+  const delta = 0.006;
+  const bbox = `${(lon - delta).toFixed(5)},${(lat - delta / 1.6).toFixed(5)},${(lon + delta).toFixed(5)},${(lat + delta / 1.6).toFixed(5)}`;
+  const embedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`;
+
+  const routeLink = document.getElementById('route-link') as HTMLAnchorElement | null;
+  if (routeLink) routeLink.href = `https://www.openstreetmap.org/directions?to=${lat}%2C${lon}`;
+
+  const mapBtn = document.getElementById('map-load');
+  const mapWrap = document.getElementById('map-wrap');
+  const mapPlaceholder = document.getElementById('map-placeholder');
+  mapBtn?.addEventListener('click', () => {
+    if (!mapWrap) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = embedSrc;
+    iframe.title = 'Standort von Multiblatt auf OpenStreetMap';
+    iframe.loading = 'lazy';
+    iframe.className = 'absolute inset-0 h-full w-full border-0';
+    mapPlaceholder?.remove();
+    mapWrap.appendChild(iframe);
+  });
+
+  // ---------- Kontaktformular (Frontend-Demo, kein echter Versand) ----------
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!status) return;
+    status.classList.remove('hidden');
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      status.className = 'rounded-lg border border-accent-200 bg-accent-50 px-4 py-3 text-sm text-accent-700';
+      status.textContent = 'Bitte füllen Sie die Pflichtfelder korrekt aus.';
+      return;
+    }
+    status.className = 'rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-sm text-green-800';
+    status.textContent = 'Vielen Dank! (Vorschau-Hinweis: In diesem Entwurf wird noch nichts versendet – hier wird später ein sicherer Versand angebunden.)';
+    form.reset();
+  });
+</script>
