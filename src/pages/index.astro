@@ -11,7 +11,7 @@ import Base from '../layouts/Base.astro';
 import Figure from '../components/Figure.astro';
 import ParallaxBand from '../components/ParallaxBand.astro';
 import Decor from '../components/Decor.astro';
-import { site, problems, services, values, contact, media } from '../data/site';
+import { site, problems, services, servicesIntro, values, contact, media, aboutAngela } from '../data/site';
 ---
 
 <Base>
@@ -130,38 +130,49 @@ import { site, problems, services, values, contact, media } from '../data/site';
     <div class="container-page py-16 sm:py-24">
       <div class="reveal max-w-2xl">
         <p class="eyebrow mb-3">Dienstleistungen</p>
-        <h2 class="text-3xl font-semibold sm:text-4xl">Drei Bereiche, ein Ziel: Ordnung</h2>
-        <p class="mt-4 text-lg text-ink-700">
-          Jede Aufgabe wird individuell auf Ihren Bedarf abgestimmt – einmalig
-          bei einer Spitze oder regelmäßig als verlängerte Schreibkraft.
-        </p>
+        <h2 class="text-3xl font-semibold sm:text-4xl">Dienstleistungen rund um Ihr Büro</h2>
+        <p class="mt-4 text-lg text-ink-700">{servicesIntro}</p>
       </div>
 
       <div class="mt-14 space-y-16 lg:space-y-24">
         {
           services.map((service, i) => {
             const reverse = i % 2 === 1;
+            const num = String(i + 1).padStart(2, '0');
             return (
-              <article class="reveal grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
-                <div class:list={['relative', reverse && 'lg:order-2']}>
-                  <span class="absolute -left-3 -top-6 font-serif text-6xl text-accent-200 sm:text-7xl" aria-hidden="true">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <Figure src={service.image} alt={`Symbolbild: ${service.title}`} ratio="aspect-[4/3]" class="relative" />
-                </div>
-                <div class:list={[reverse && 'lg:order-1']}>
+              <article
+                class:list={[
+                  'reveal grid items-center gap-8 lg:gap-14',
+                  service.image && 'lg:grid-cols-2',
+                ]}
+              >
+                {service.image && (
+                  <div class:list={['relative', reverse && 'lg:order-2']}>
+                    <span class="absolute -left-3 -top-6 font-serif text-6xl text-accent-200 sm:text-7xl" aria-hidden="true">
+                      {num}
+                    </span>
+                    <Figure src={service.image} alt={`Symbolbild: ${service.title}`} ratio="aspect-[4/3]" class="relative" />
+                  </div>
+                )}
+                <div class:list={['relative', reverse && 'lg:order-1', !service.image && 'max-w-3xl']}>
+                  {!service.image && (
+                    <span class="absolute -left-3 -top-8 font-serif text-6xl text-accent-200 sm:text-7xl" aria-hidden="true">
+                      {num}
+                    </span>
+                  )}
                   <h3 class="text-2xl font-semibold text-ink-900 sm:text-3xl">{service.title}</h3>
                   <p class="mt-2 font-serif text-lg text-accent-700">{service.hook}</p>
                   <div class="prose-block mt-4">
                     {service.body.map((p) => <p>{p}</p>)}
                   </div>
-                  <ul class="mt-6 flex flex-wrap gap-2">
-                    {service.examples.map((ex) => (
-                      <li class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink-700">
-                        <svg class="h-3.5 w-3.5 text-accent-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <p class="mt-6 text-sm font-semibold uppercase tracking-wide text-accent-700">Ihre Vorteile</p>
+                  <ul class="mt-3 grid gap-2 sm:grid-cols-2">
+                    {service.benefits.map((b) => (
+                      <li class="flex items-start gap-2 text-sm leading-relaxed text-ink-700">
+                        <svg class="mt-0.5 h-4 w-4 shrink-0 text-accent-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                           <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.1 3.09 6.8-6.79a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" />
                         </svg>
-                        {ex}
+                        <span>{b}</span>
                       </li>
                     ))}
                   </ul>
@@ -246,18 +257,9 @@ import { site, problems, services, values, contact, media } from '../data/site';
       <div>
         <p class="eyebrow mb-3">Über mich</p>
         <h2 class="text-2xl font-semibold sm:text-3xl">Angela Aldenhoff</h2>
-        {/* Platzhaltertext – finaler Vorstellungstext steht noch aus. */}
+        {/* Originaltext von Angela („Über mich“, E-Mail vom 05.07.2026). */}
         <div class="prose-block mt-5">
-          <p>
-            Mit Multiblatt unterstütze ich Selbstständige, kleine Betriebe und
-            Privatpersonen überall dort, wo Schreibarbeiten, Büroorganisation
-            oder der private Papierkram Zeit und Nerven kosten.
-          </p>
-          <p>
-            Mir ist wichtig, dass Sie sich auf Diskretion und Sorgfalt verlassen
-            können. Jede Aufgabe gehe ich gewissenhaft an und stimme sie
-            individuell auf Ihre Situation ab.
-          </p>
+          {aboutAngela.map((p) => <p>{p}</p>)}
         </div>
       </div>
     </div>

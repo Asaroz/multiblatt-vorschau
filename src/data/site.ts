@@ -97,78 +97,106 @@ export interface Service {
   slug: string;
   href: string;
   title: string;
-  hook: string; // Aufhaenger (echter Inhalt der Originalseite)
+  hook: string; // Aufhaenger (Originaltext Angela)
   summary: string; // Kurzbeschreibung
-  body: string[]; // Beschreibungstexte – WÖRTLICH von der Originalseite uebernommen
-  examples: string[]; // Leistungen – von der Originalseite uebernommen
-  image: string; // PLATZHALTER-Stockfoto
+  body: string[]; // Beschreibungstexte – WÖRTLICH aus Angelas Textvorlage
+  benefits: string[]; // „Ihre Vorteile" – WÖRTLICH aus Angelas Textvorlage
+  /** PLATZHALTER-Stockfoto. `null` = es fehlt noch ein Bild fuer diesen Bereich. */
+  image: string | null;
 }
 
-/** Die drei Dienstleistungsbereiche mit je eigener Unterseite. */
+/** Einleitung ueber den Leistungen – Originaltext Angela. */
+export const servicesIntro =
+  'Als selbstständige Bürodienstleisterin unterstütze ich kleine Unternehmen flexibel und zuverlässig bei allem, was rund ums Büro anfällt. Hier ein Überblick über meine Leistungen:';
+
+/** Die vier Dienstleistungsbereiche.
+   Quelle: „Multiblatt_Dienstleistungstexte.docx", von Angela Aldenhoff
+   per E-Mail am 05.07.2026 geschickt. Texte woertlich uebernommen. */
 export const services: Service[] = [
   {
-    slug: 'schreibdienste',
-    href: '/dienstleistungen/schreibdienste/',
-    title: 'Schreibdienste',
-    hook: 'Viel zum Schreiben, zu wenig Personal?',
+    slug: 'digitalisierung-erechnung',
+    href: '/dienstleistungen/digitalisierung-erechnung/',
+    title: 'Digitalisierung & eRechnung',
+    hook: 'Fit für die eRechnung – ich begleite Sie in die digitale Zukunft.',
     summary:
-      'Wir unterstützen Sie bei Ihrem Engpass – und schreiben Ihre Diktate wunschgemäß.',
+      'Schritt für Schritt zur elektronischen Rechnungsstellung – inklusive unabhängiger Software-Beratung.',
     body: [
-      'In Ihrer Kanzlei oder Firma geht es drunter und drüber, weil sich die „Digitalbänder“ stapeln? Alles muss schnell fertig werden, doch die Personalkapazität ist erschöpft? Multiblatt unterstützt Sie bei Ihrem Engpass!',
-      'Egal ob Klagen, Schriftsätze, notarielle Kaufverträge, Inventuren oder Aktenspiegel – wir schreiben Ihre Diktate wunschgemäß. Nehmen Sie Kontakt mit uns auf, um nähere Informationen zu erhalten.',
+      'Die eRechnung ist da – und viele kleine Unternehmen stehen vor der Frage: Wo fange ich an? Ich unterstütze Sie dabei, den Umstieg auf die elektronische Rechnungsstellung Schritt für Schritt und ohne Stress zu meistern.',
+      'Gemeinsam schauen wir uns Ihre bisherigen Abläufe an, klären offene Fragen und finden eine Lösung, die zu Ihrem Betrieb passt. Auch bei der Suche nach der passenden Software – ob für Buchhaltung, Rechnungsstellung oder allgemeine Büroorganisation – berate ich Sie gerne und unabhängig.',
     ],
-    examples: [
-      'Klagen & Schriftsätze',
-      'Notarielle Kaufverträge',
-      'Inventuren',
-      'Aktenspiegel',
-      'Diktate nach Wunsch',
+    benefits: [
+      'Gesetzeskonforme Umstellung auf eRechnung',
+      'Verständliche Begleitung ohne Fachchinesisch',
+      'Individuelle Beratung zur passenden Software',
+      'Weniger Papier, mehr Übersicht',
     ],
-    image: withBase('/images/placeholder/service-schreibdienste.jpg'),
+    // OFFEN: fuer diesen (neuen) Bereich gibt es noch kein Bild.
+    image: null,
   },
   {
-    slug: 'buerotaetigkeiten',
-    href: '/dienstleistungen/buerotaetigkeiten/',
-    title: 'Bürotätigkeiten',
-    hook: 'Sie geben Ihre Buchhaltung in einem Karton ab?',
+    slug: 'buero-organisation',
+    href: '/dienstleistungen/buero-organisation/',
+    title: 'Büro-Organisation & Umstrukturierung',
+    hook: 'Ordnung im Büro – für mehr Überblick im Alltag.',
     summary:
-      'Kein oder zu wenig Büropersonal? Wir kümmern uns um Rechnungen, Fristen und Ablage.',
+      'Struktur in Unterlagen und Ablage – vom Sortieren bis zur Umstellung auf digitale Prozesse.',
     body: [
-      'Sie sind Inhaber einer Firma und haben kein oder zu wenig Büropersonal? Sie befassen sich den ganzen Tag mit Ihrer eigentlichen Arbeit und haben keine Zeit und Lust, sich am späten Abend noch an den PC zu setzen, um Rechnungen zu schreiben oder Unterlagen zu sortieren?',
-      'Auf Ihrem Schreibtisch herrscht Chaos und jeder braucht Ihre Hilfe? Ständig verpassen Sie Termine oder Fristen zur Abgabe von Unterlagen? Dann bietet Multiblatt Ihnen Folgendes an:',
+      'Gerade kleine Firmen ohne eigene Bürokraft kennen das Problem: Der Schreibtisch wird voller, die Ablage unübersichtlicher, wichtige Unterlagen sind schwer auffindbar. Ich helfe Ihnen, Struktur in Ihr Büro zu bringen – praxisnah und auf Ihre Bedürfnisse zugeschnitten.',
+      'Vom Sortieren bestehender Unterlagen über die Einführung sinnvoller Ablagesysteme bis hin zur Umstellung auf digitale Prozesse: Ich unterstütze Sie dabei, den Weg weg vom Papier zu gehen – Schritt für Schritt und in Ihrem Tempo.',
     ],
-    examples: [
-      'Rechnungen schreiben',
-      'Geldeingänge überwachen',
-      'Mahnungen schreiben',
-      'Termine & Fristen überwachen',
-      'Unterlagen für den Steuerberater zusammenstellen',
-      'Botengänge übernehmen',
-      'Unterlagen sortieren',
-      'Büroorganisation optimieren',
+    benefits: [
+      'Klare, nachvollziehbare Ablagestrukturen',
+      'Weniger Papierchaos, mehr digitale Übersicht',
+      'Individuell angepasst an Ihren Betrieb',
+      'Mehr Zeit für Ihr eigentliches Geschäft',
     ],
     image: withBase('/images/placeholder/service-buerotaetigkeiten.jpg'),
   },
   {
-    slug: 'privat-zu-hause',
-    href: '/dienstleistungen/privat-zu-hause/',
-    title: 'Privat zu Hause',
-    hook: 'Sie haben zu Hause den Überblick verloren?',
+    slug: 'forderungsmanagement',
+    href: '/dienstleistungen/forderungsmanagement/',
+    title: 'Forderungsmanagement & Mahnwesen',
+    hook: 'Offene Rechnungen? Ich kümmere mich darum.',
     summary:
-      'Keine Ordnung in den Unterlagen? Wir helfen beim Sortieren, Abheften, Ausfüllen und Schreiben.',
+      'Komplettes Mahnwesen – von der Zahlungserinnerung bis zur Vollstreckung.',
     body: [
-      'Sie haben keine Ordnung in Ihren Unterlagen? Sie sind ein Büromuffel und Ihre Post landet stets in einer Schublade?',
-      'Sie müssten eigentlich schon lange einen Vertrag kündigen oder auf einen Brief reagieren, wissen aber nicht wie? Formulare über Formulare und Sie wissen nicht, wie man sie ausfüllt?',
-      'Kontaktieren Sie Multiblatt! Wir unterstützen Sie beim Sortieren, Abheften, Ausfüllen und/oder Schreiben.',
+      'Nicht bezahlte Rechnungen kosten Zeit, Nerven und manchmal auch Geld. Damit Sie sich nicht selbst um das Nachtelefonieren kümmern müssen, übernehme ich für Sie das komplette Mahnwesen – zuverlässig und konsequent.',
+      'Mein Service reicht von der ersten freundlichen Zahlungserinnerung über die Mahnung bis hin zum gerichtlichen Mahn- und Vollstreckungsbescheid. Sollte auch das nicht zum Erfolg führen, unterstütze ich Sie bei der Beauftragung des Gerichtsvollziehers.',
     ],
-    examples: [
-      'Unterlagen sortieren',
-      'Post & Ablage ordnen',
-      'Formulare ausfüllen',
-      'Verträge kündigen',
-      'Auf Briefe reagieren',
-      'Abheften & Schreiben',
+    benefits: [
+      'Professionelles Mahnwesen aus einer Hand',
+      'Von der Erinnerung bis zur Vollstreckung',
+      'Zeitersparnis und weniger Stress für Sie',
+      'Konsequentes Vorgehen bei offenen Forderungen',
     ],
     image: withBase('/images/placeholder/service-privat.jpg'),
   },
+  {
+    slug: 'schreibdienste',
+    href: '/dienstleistungen/schreibdienste/',
+    title: 'Schreibdienste',
+    hook: 'Schreibarbeiten zuverlässig ausgelagert.',
+    summary:
+      'Korrespondenz, Schriftverkehr und Protokolle – übernommen, wenn intern die Zeit fehlt.',
+    body: [
+      'Ob Korrespondenz, Schriftverkehr, Protokolle oder sonstige Schreibarbeiten – wenn intern die Zeit oder das Personal fehlt, übernehme ich diese Aufgaben zuverlässig und professionell für Sie.',
+    ],
+    benefits: [
+      'Schnelle, professionelle Bearbeitung',
+      'Entlastung Ihres Tagesgeschäfts',
+      'Flexibel einsetzbar, je nach Bedarf',
+    ],
+    image: withBase('/images/placeholder/service-schreibdienste.jpg'),
+  },
+];
+
+/** „Über mich" – Originaltext Angela („Dokument1.docx", E-Mail vom 05.07.2026).
+   Einzige Aenderung: „An- u. Verkauf" zu „An- und Verkauf" ausgeschrieben. */
+export const aboutAngela: string[] = [
+  'Mein Name ist Angela Aldenhoff, ich lebe in Rees – und Büroorganisation ist bei mir keine trockene Pflichtübung, sondern echte Leidenschaft.',
+  'Meinen beruflichen Weg begann ich als Rechtsanwalts- und Notarfachangestellte. Nach einigen Jahren in diesem Beruf führte mich mein Weg 2002 in die Dienstleistungen für Insolvenzverwalter – ein Bereich, der mich fachlich enorm geprägt hat. Hier habe ich gelernt, auch in komplexen und oft unübersichtlichen Situationen den Überblick zu behalten: beim Inventarisieren und Bewerten von Anlagegütern, beim Organisieren und Optimieren von Büroabläufen sowie beim Verkauf von Geschäftsausstattung, Fahrzeugen und Warenbeständen.',
+  'Im weiteren Verlauf kamen Erfahrungen im Bereich der Immobilienverwaltung hinzu – unter anderem im Erstellen von Nebenkostenabrechnungen und auch dem An- und Verkauf von Immobilien.',
+  'Diese Vielseitigkeit ist heute mein größtes Kapital – denn kaum eine Büro-Herausforderung ist mir fremd. Mit Multiblatt biete ich Ihnen genau das: eine erfahrene, verlässliche Ansprechpartnerin, die genau weiß, worauf es ankommt – ob bei der Umstellung auf eRechnung, der Neuorganisation Ihrer Büroabläufe oder im professionellen Umgang mit offenen Forderungen. Und auch für einfache Schreibarbeiten, die im Alltag gerne mal liegen bleiben, bin ich jederzeit gerne für Sie da.',
+  'Mir ist wichtig, dass Sie sich bei mir gut aufgehoben fühlen. Deshalb nehme ich mir Zeit für Ihre individuellen Anliegen und finde gemeinsam mit Ihnen praktikable Lösungen – unkompliziert, diskret und auf Augenhöhe.',
+  'Ich freue mich darauf, Sie kennenzulernen!',
 ];
