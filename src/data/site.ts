@@ -34,9 +34,10 @@ export const contact = {
   mobileLabel: '+49 174 94 39 621',
   faxLabel: '+49 2851 965 22 83',
   email: 'info@multiblatt.de',
-  // Bisher nur ein Zeitfenster bekannt (offen – siehe OFFEN!-Marker auf der Seite).
+  // Flexibilität zuerst (passt zu „Flexibel"); bisher ist nur ein festes
+  // Zeitfenster bekannt – Sprechzeiten mit Angela noch bestätigen.
+  hoursLead: 'Termine flexibel nach Vereinbarung',
   hours: [{ day: 'Freitag', time: '08:00 – 12:00 Uhr' }],
-  hoursNote: 'Weitere Sprechzeiten nach Vereinbarung.',
 } as const;
 
 /** Single-Page-Navigation: Anker-Links auf Abschnitte der Startseite.
@@ -44,7 +45,7 @@ export const contact = {
    Datenschutz) aus funktionieren. */
 export const nav: NavItem[] = [
   { label: 'Leistungen', id: 'leistungen' },
-  { label: 'Über uns', id: 'ueber' },
+  { label: 'Über mich', id: 'ueber' },
   { label: 'Anfahrt', id: 'anfahrt' },
   { label: 'Kontakt', id: 'kontakt' },
 ];
@@ -58,13 +59,14 @@ export interface NavItem {
 /** Bildquellen. Alle „placeholder"-Bilder sind PLATZHALTER (Stockfotos,
    nicht fürs finale Produkt). Angelas Porträt hat sie selbst geschickt
    (WhatsApp, 10.09.2026). OFFEN: Für `trust` wünscht sie sich ein Foto von
-   sich am PC/im Bürostuhl – bis das da ist, steht dort ihr Porträt. */
+   sich am PC/im Bürostuhl – bis das da ist, steht dort ihr Porträt.
+   Jedes Stockfoto wird genau einmal verwendet. Hero: Schreibtisch-Motiv statt
+   Füller/Notizbuch (weg vom „Schreibbüro"-Eindruck). */
 export const media = {
-  hero: withBase('/images/placeholder/hero.jpg'),
+  hero: withBase('/images/placeholder/band-statement.jpg'),
   trust: withBase('/images/angela/angela-portrait.jpg'),
   angela: withBase('/images/angela/angela-kopf.jpg'),
   bandIntro: withBase('/images/placeholder/band-intro.jpg'),
-  bandStatement: withBase('/images/placeholder/band-statement.jpg'),
   bandCta: withBase('/images/placeholder/band-cta.jpg'),
 } as const;
 
@@ -178,9 +180,8 @@ export const services: Service[] = [
       'Mehr Zeit für Ihr eigentliches Geschäft',
     ],
     // Vorher Foto mit Steuerformularen – auf Angelas Wunsch (08.09.2026) raus,
-    // sonst erwarten Kunden Steuererklärungen. Übergangsweise das ruhige
-    // Büro-Motiv (läuft auch als dunkler Trenner „Die Lösung").
-    image: withBase('/images/placeholder/band-intro.jpg'),
+    // sonst erwarten Kunden Steuererklärungen.
+    image: withBase('/images/placeholder/hero.jpg'),
   },
   {
     slug: 'schreibdienste',

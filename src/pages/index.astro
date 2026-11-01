@@ -12,6 +12,7 @@ import Figure from '../components/Figure.astro';
 import ParallaxBand from '../components/ParallaxBand.astro';
 import Decor from '../components/Decor.astro';
 import { site, problems, services, servicesIntro, values, contact, media, aboutAngela } from '../data/site';
+import { routeHref } from '../lib/location';
 ---
 
 <Base>
@@ -25,18 +26,17 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
 
     <div class="container-page grid items-center gap-10 pb-14 pt-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-24">
       <div class="reveal">
-        <p class="eyebrow mb-4">Büroservice · Rees</p>
         <h1 class="text-5xl font-semibold leading-[1.05] sm:text-6xl md:text-7xl">Multiblatt</h1>
-        <p class="mt-5 font-serif text-xl text-accent-700 sm:text-2xl">
+        <p class="mt-5 text-balance font-serif text-xl text-accent-700 sm:text-2xl">
           schreibt – sortiert – organisiert – optimiert – vermittelt
         </p>
         <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-700">
-          {site.shortIntro} Verschwiegenheit und Diskretion sind dabei
-          selbstverständlich.
+          {site.shortIntro} Mit Erfahrung aus Kanzlei, Insolvenz- und
+          Immobilienverwaltung seit 2002.
         </p>
         <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a href="#leistungen" class="btn btn-primary w-full sm:w-auto">Leistungen entdecken</a>
-          <a href="#kontakt" class="btn btn-secondary w-full sm:w-auto">Kontakt aufnehmen</a>
+          <a href="#kontakt" class="btn btn-secondary w-full sm:w-auto">Anfrage senden</a>
         </div>
         <!-- Vertrauens-Mini-Reihe -->
         <ul class="stagger mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-ink-700">
@@ -58,7 +58,7 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
         <div class="absolute -left-5 -top-5 -z-10 hidden h-full w-full rounded-3xl bg-accent-100/70 sm:block" aria-hidden="true"></div>
         <Figure
           src={media.hero}
-          alt="Aufgeräumter Schreibtisch mit Notizbuch, Füller und Brille"
+          alt="Schreibtisch mit Laptop, Notizbuch, Lupe und Kaffee"
           ratio="aspect-[4/3]"
           eager={true}
           class="rounded-3xl"
@@ -75,23 +75,23 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
   <section id="bedarf" class="container-page relative isolate scroll-mt-24 overflow-hidden py-16 sm:py-20">
     <div class="pointer-events-none absolute inset-0 -z-10 hidden sm:block" aria-hidden="true">
       <Decor class="right-4 top-12 h-40 w-40 bg-accent-100" />
-      <Decor ring class="left-2 top-16 h-14 w-14" />
     </div>
     <div class="reveal max-w-2xl">
-      <p class="eyebrow mb-3">Kommt Ihnen das bekannt vor?</p>
       <h2 class="text-3xl font-semibold sm:text-4xl">Wenn der Papierkram über den Kopf wächst</h2>
       <p class="mt-4 text-lg text-ink-700">
         Für Selbstständige, kleine Betriebe und Privatpersonen – überall dort, wo
         Zeit, Struktur oder Personal fehlen.
       </p>
     </div>
-    <ul class="stagger mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="stagger mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
       {
         problems.map((p) => (
           <li class="card flex items-start gap-3 p-4 sm:p-6">
+            {/* Fragezeichen statt Ausrufezeichen: „Kommt Ihnen das bekannt vor?", keine Warnliste. */}
             <span class="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-accent-50 text-accent-700" aria-hidden="true">
-              <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M9 2a1 1 0 0 1 2 0v9a1 1 0 1 1-2 0V2Zm1 13.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z" />
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.7-3 4.5" />
+                <path d="M12 18.5h.01" />
               </svg>
             </span>
             <span class="text-ink-700">{p}</span>
@@ -109,7 +109,6 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
     overlay="bg-gradient-to-r from-ink-900/85 via-ink-900/75 to-ink-900/60"
   >
     <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="eyebrow mb-4 !text-accent-200">Die Lösung</p>
       <h2 class="font-serif text-3xl font-semibold !text-white sm:text-4xl">
         Multiblatt unterstützt Sie bei Ihrem Engpass
       </h2>
@@ -129,7 +128,6 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
     </div>
     <div class="container-page py-16 sm:py-24">
       <div class="reveal max-w-2xl">
-        <p class="eyebrow mb-3">Dienstleistungen</p>
         <h2 class="text-3xl font-semibold sm:text-4xl">Dienstleistungen rund um Ihr Büro</h2>
         <p class="mt-4 text-lg text-ink-700">{servicesIntro}</p>
       </div>
@@ -154,9 +152,13 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
                 <div class:list={['relative', reverse && 'lg:order-1', !service.image && 'max-w-3xl']}>
                   <h3 class="text-2xl font-semibold text-ink-900 sm:text-3xl">{service.title}</h3>
                   <p class="mt-2 font-serif text-lg text-accent-700">{service.hook}</p>
-                  <div class="prose-block mt-4">
-                    {service.body.map((p) => <p>{p}</p>)}
-                  </div>
+                  {/* Mobil eingeklappt (Angelas Text bleibt vollständig), ab lg per Skript offen. */}
+                  <details class="disclosure mt-4" data-open-lg>
+                    <summary class="disclosure-toggle lg:hidden">Mehr lesen</summary>
+                    <div class="prose-block mt-3 lg:mt-0">
+                      {service.body.map((p) => <p>{p}</p>)}
+                    </div>
+                  </details>
                   <p class="mt-6 text-sm font-semibold uppercase tracking-wide text-accent-700">Ihre Vorteile</p>
                   <ul class="mt-3 grid gap-2 sm:grid-cols-2">
                     {service.benefits.map((b) => (
@@ -178,27 +180,11 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
     </div>
   </section>
 
-  <!-- =============== TRENNER: STATEMENT (Parallax) =============== -->
-  <ParallaxBand src={media.bandStatement} alt="Schreibtisch mit Notizbuch, Stiften, Lupe und Kaffee">
-    <blockquote class="reveal mx-auto max-w-3xl text-center">
-      <p class="eyebrow mb-4 !text-accent-200">Was Multiblatt ausmacht</p>
-      <p class="font-serif text-2xl font-semibold leading-snug sm:text-3xl md:text-4xl">
-        „Verschwiegenheit und Diskretion sind selbstverständlich –
-        Gewissenhaftigkeit, Pünktlichkeit und Flexibilität haben oberste Priorität."
-      </p>
-    </blockquote>
-  </ParallaxBand>
-
   <!-- ===================== ÜBER UNS ===================== -->
   <section id="ueber" class="container-page relative isolate scroll-mt-24 overflow-hidden py-16 sm:py-24">
-    <div class="pointer-events-none absolute inset-0 -z-10 hidden sm:block" aria-hidden="true">
-      <Decor ring class="left-2 top-12 h-16 w-16" />
-      <Decor class="left-28 top-16 h-5 w-5 bg-accent-200" />
-    </div>
     <!-- Über Multiblatt + Werte -->
     <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
       <div class="reveal">
-        <p class="eyebrow mb-3">Über Multiblatt</p>
         <h2 class="text-3xl font-semibold sm:text-4xl">
           Sortieren, organisieren, optimieren – individuell für Sie
         </h2>
@@ -249,12 +235,18 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
         />
       </div>
       <div>
-        <p class="eyebrow mb-3">Über mich</p>
         <h2 class="text-2xl font-semibold sm:text-3xl">Angela Aldenhoff</h2>
-        {/* Originaltext von Angela („Über mich“, E-Mail vom 05.07.2026). */}
+        {/* Originaltext von Angela („Über mich“, E-Mail vom 05.07.2026).
+            Mobil nach zwei Absätzen eingeklappt, ab lg per Skript offen. */}
         <div class="prose-block mt-5">
-          {aboutAngela.map((p) => <p>{p}</p>)}
+          {aboutAngela.slice(0, 2).map((p) => <p>{p}</p>)}
         </div>
+        <details class="disclosure mt-4" data-open-lg>
+          <summary class="disclosure-toggle lg:hidden">Weiterlesen</summary>
+          <div class="prose-block mt-3 lg:mt-0">
+            {aboutAngela.slice(2).map((p) => <p>{p}</p>)}
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -264,7 +256,6 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
     <div class="container-page py-16 sm:py-24">
       <div class="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
         <div class="reveal">
-          <p class="eyebrow mb-3">Anfahrt</p>
           <h2 class="text-3xl font-semibold sm:text-4xl">So finden Sie zu Multiblatt</h2>
           <address class="mt-6 text-lg not-italic leading-relaxed text-ink-800">
             {contact.company}<br />
@@ -273,7 +264,7 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
             {contact.zip} {contact.city}
           </address>
           <div class="mt-6 flex flex-wrap gap-3">
-            <a id="route-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <a href={routeHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
               Route planen (OpenStreetMap)
             </a>
             <a href={`tel:${contact.phoneHref}`} class="btn btn-secondary">{contact.phoneLabel}</a>
@@ -283,7 +274,7 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
 
         <!-- Datenschutzfreundliche Karte (Klick zum Laden) -->
         <div class="reveal">
-          <div id="map-wrap" class="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line bg-ink-50">
+          <div id="map-wrap" class="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line bg-ink-50 lg:aspect-[16/10]">
             <div id="map-placeholder" class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
               <svg class="h-14 w-14 text-accent-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
                 <path stroke-linejoin="round" d="m9 3 6 2 6-2v15l-6 2-6-2-6 2V5l6-2Z" />
@@ -334,11 +325,10 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
     </div>
     <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
       <div class="reveal">
-        <p class="eyebrow mb-3">Kontakt</p>
         <h2 class="text-3xl font-semibold sm:text-4xl">Lassen Sie uns über Ihre Unterlagen sprechen</h2>
         <p class="mt-4 text-ink-700">
-          Haben Sie Fragen, Wünsche oder Anregungen? Bitte nehmen Sie Kontakt mit
-          uns auf, wir helfen Ihnen gerne weiter!
+          Haben Sie Fragen, Wünsche oder Anregungen? Nehmen Sie gerne Kontakt mit
+          mir auf – ich helfe Ihnen weiter!
         </p>
         <dl class="mt-8 space-y-5">
           <div class="flex items-start gap-4">
@@ -347,8 +337,8 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
             </span>
             <div>
               <dt class="text-sm font-medium text-muted">Telefon</dt>
-              <dd><a class="text-lg text-ink-900 hover:text-accent-700" href={`tel:${contact.phoneHref}`}>{contact.phoneLabel}</a></dd>
-              <dd class="text-sm"><a class="text-ink-700 hover:text-accent-700" href={`tel:${contact.mobileHref}`}>Mobil: {contact.mobileLabel}</a></dd>
+              <dd><a class="inline-block py-1.5 text-lg text-ink-900 hover:text-accent-700" href={`tel:${contact.phoneHref}`}>{contact.phoneLabel}</a></dd>
+              <dd class="text-sm"><a class="inline-block py-2 text-ink-700 hover:text-accent-700" href={`tel:${contact.mobileHref}`}>Mobil: {contact.mobileLabel}</a></dd>
               <dd class="text-sm text-muted">Fax: {contact.faxLabel}</dd>
             </div>
           </div>
@@ -358,48 +348,57 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
             </span>
             <div>
               <dt class="text-sm font-medium text-muted">E-Mail</dt>
-              <dd><a class="text-lg text-ink-900 hover:text-accent-700" href={`mailto:${contact.email}`}>{contact.email}</a></dd>
+              <dd><a class="inline-block py-1.5 text-lg text-ink-900 hover:text-accent-700" href={`mailto:${contact.email}`}>{contact.email}</a></dd>
             </div>
           </div>
           <div class="rounded-xl border border-line bg-surface p-5">
-            <h3 class="text-sm font-semibold uppercase tracking-wide text-accent-700">Sprechzeiten</h3>
-            <ul class="mt-3 space-y-1 text-sm text-ink-700">
+            <h3 class="text-base font-semibold text-ink-900">{contact.hoursLead}</h3>
+            <p class="mt-1 text-sm text-muted">Feste Sprechzeit:</p>
+            <ul class="mt-1 space-y-1 text-sm text-ink-700">
               {contact.hours.map((h) => (
                 <li class="flex justify-between gap-4"><span>{h.day}</span><span>{h.time}</span></li>
               ))}
             </ul>
-            <p class="mt-2 text-xs text-muted">{contact.hoursNote}</p>
           </div>
         </dl>
       </div>
 
       <!-- Formular (Frontend-Demo) -->
       <div class="reveal">
-        <div class="card p-7 sm:p-9">
-          <h3 class="text-2xl font-semibold">Anfrage senden</h3>
-          <p class="mt-2 text-sm text-muted">
-            Wir freuen uns über Ihre Nachricht! Felder mit
-            <span class="text-accent-700">*</span> sind Pflichtfelder.
+        <div class="card p-6 sm:p-9">
+          {/* Persönlicher Einstieg: Angela statt anonymem Formular. */}
+          <div class="flex items-center gap-4">
+            <img src={media.angela} alt="" width="56" height="70" loading="lazy" class="h-14 w-14 flex-none rounded-full object-cover object-top" />
+            <div>
+              <h3 class="text-2xl font-semibold">Anfrage senden</h3>
+              <p class="text-sm text-ink-700">Ich melde mich zeitnah bei Ihnen zurück.</p>
+            </div>
+          </div>
+          <p class="mt-4 text-sm text-muted">
+            Felder mit <span class="text-accent-700">*</span> sind Pflichtfelder.
           </p>
           {/* HINWEIS: Reines Frontend-Formular ohne echten Versand. Für den
-              Live-Betrieb serverseitigen Endpunkt anbinden, Auslieferung über HTTPS. */}
+              Live-Betrieb serverseitigen Endpunkt anbinden, Auslieferung über HTTPS.
+              Validierung: eigene Feldhinweise (novalidate), siehe Skript unten. */}
           <form id="contact-form" class="mt-6 space-y-5" novalidate>
             <div class="grid gap-5 sm:grid-cols-2">
               <div>
                 <label class="mb-1.5 block text-sm font-medium text-ink-800" for="name">Name <span class="text-accent-700">*</span></label>
-                <input id="name" name="name" type="text" required autocomplete="name" class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600" />
+                <input id="name" name="name" type="text" required autocomplete="name" aria-describedby="name-error" data-error="Bitte geben Sie Ihren Namen an." class="field" />
+                <p id="name-error" class="field-error" hidden></p>
               </div>
               <div>
                 <label class="mb-1.5 block text-sm font-medium text-ink-800" for="email">E-Mail <span class="text-accent-700">*</span></label>
-                <input id="email" name="email" type="email" required autocomplete="email" class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600" />
+                <input id="email" name="email" type="email" required autocomplete="email" aria-describedby="email-error" data-error="Bitte geben Sie eine gültige E-Mail-Adresse an, z. B. name@beispiel.de." class="field" />
+                <p id="email-error" class="field-error" hidden></p>
               </div>
               <div>
                 <label class="mb-1.5 block text-sm font-medium text-ink-800" for="phone">Telefon</label>
-                <input id="phone" name="phone" type="tel" autocomplete="tel" class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600" />
+                <input id="phone" name="phone" type="tel" autocomplete="tel" class="field" />
               </div>
               <div>
                 <label class="mb-1.5 block text-sm font-medium text-ink-800" for="topic">Anliegen</label>
-                <select id="topic" name="topic" class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600">
+                <select id="topic" name="topic" class="field">
                   <option value="">Bitte wählen …</option>
                   {services.map((s) => <option value={s.slug}>{s.title}</option>)}
                   <option value="sonstiges">Sonstiges</option>
@@ -408,14 +407,19 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
             </div>
             <div>
               <label class="mb-1.5 block text-sm font-medium text-ink-800" for="message">Nachricht <span class="text-accent-700">*</span></label>
-              <textarea id="message" name="message" rows="5" required class="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink-900 outline-none transition focus:border-accent-600"></textarea>
+              <textarea id="message" name="message" rows="5" required aria-describedby="message-error" data-error="Bitte schildern Sie kurz Ihr Anliegen." class="field"></textarea>
+              <p id="message-error" class="field-error" hidden></p>
             </div>
-            <label class="flex items-start gap-3 text-sm text-ink-700">
-              <input type="checkbox" name="consent" required class="mt-1 h-4 w-4 rounded border-line text-accent-600" />
-              <span>Hiermit erkläre ich mich einverstanden, dass meine in das Kontaktformular eingegebenen Daten elektronisch gespeichert und zum Zweck der Kontaktaufnahme verarbeitet und genutzt werden. Mir ist bekannt, dass ich meine Einwilligung jederzeit widerrufen kann. <span class="text-accent-700">*</span></span>
-            </label>
-            <button type="submit" class="btn btn-primary w-full">Anfrage absenden</button>
+            <div>
+              <label class="flex cursor-pointer items-start gap-3 py-1 text-sm text-ink-700">
+                <input id="consent" type="checkbox" name="consent" required aria-describedby="consent-error" data-error="Bitte stimmen Sie der Verarbeitung Ihrer Angaben zu, damit ich Ihnen antworten kann." class="mt-0.5 h-5 w-5 flex-none cursor-pointer accent-[var(--color-accent-600)]" />
+                <span>Hiermit erkläre ich mich einverstanden, dass meine in das Kontaktformular eingegebenen Daten elektronisch gespeichert und zum Zweck der Kontaktaufnahme verarbeitet und genutzt werden. Mir ist bekannt, dass ich meine Einwilligung jederzeit widerrufen kann. <span class="text-accent-700">*</span></span>
+              </label>
+              <p id="consent-error" class="field-error" hidden></p>
+            </div>
+            {/* Status über dem Knopf, damit er mobil nicht unter der festen Leiste verschwindet. */}
             <p id="form-status" role="status" aria-live="polite" class="hidden rounded-lg border px-4 py-3 text-sm"></p>
+            <button type="submit" class="btn btn-primary w-full">Anfrage senden</button>
             <p class="flex items-center gap-2 text-xs text-muted">
               <svg class="h-4 w-4 flex-none text-accent-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path stroke-linecap="round" d="M8 11V8a4 4 0 1 1 8 0v3"/></svg>
               Übertragung verschlüsselt über HTTPS. Ihre Daten werden ausschließlich zur Bearbeitung der Anfrage verwendet.
@@ -428,6 +432,8 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
 </Base>
 
 <script>
+  import { MAP_LAT, MAP_LON } from '../lib/location';
+
   // ---------- Scroll-Reveal (inkl. gestaffeltem .stagger) ----------
   const reveals = document.querySelectorAll('.reveal, .stagger');
   if ('IntersectionObserver' in window) {
@@ -478,15 +484,22 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
     apply();
   }
 
-  // ---------- Anfahrt: Route-Link + Karte erst nach Klick ----------
-  const lat = 51.79171;
-  const lon = 6.3564148;
+  // ---------- Einklappbare Texte: mobil zu, ab lg (1024px) offen ----------
+  const lgQuery = window.matchMedia('(min-width: 1024px)');
+  const syncDisclosures = () => {
+    document.querySelectorAll<HTMLDetailsElement>('details[data-open-lg]').forEach((d) => {
+      d.open = lgQuery.matches;
+    });
+  };
+  syncDisclosures();
+  lgQuery.addEventListener('change', syncDisclosures);
+
+  // ---------- Anfahrt: Karte erst nach Klick (Route-Link ist statisch im Markup) ----------
+  const lat = MAP_LAT;
+  const lon = MAP_LON;
   const delta = 0.006;
   const bbox = `${(lon - delta).toFixed(5)},${(lat - delta / 1.6).toFixed(5)},${(lon + delta).toFixed(5)},${(lat + delta / 1.6).toFixed(5)}`;
   const embedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`;
-
-  const routeLink = document.getElementById('route-link') as HTMLAnchorElement | null;
-  if (routeLink) routeLink.href = `https://www.openstreetmap.org/directions?to=${lat}%2C${lon}`;
 
   const mapBtn = document.getElementById('map-load');
   const mapWrap = document.getElementById('map-wrap');
@@ -503,19 +516,50 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
   });
 
   // ---------- Kontaktformular (Frontend-Demo, kein echter Versand) ----------
+  // Fehler werden direkt am Feld genannt (aria-invalid + aria-describedby);
+  // der Sammelstatus nennt nur die Anzahl und steht über dem Absende-Knopf.
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const status = document.getElementById('form-status');
+  type Field = HTMLInputElement | HTMLTextAreaElement;
+  const requiredFields = form
+    ? Array.from(form.querySelectorAll<Field>('[required]'))
+    : [];
+
+  const setFieldError = (field: Field, show: boolean) => {
+    const msg = document.getElementById(`${field.id}-error`);
+    field.setAttribute('aria-invalid', String(show));
+    if (!msg) return;
+    msg.textContent = show ? (field.dataset.error ?? 'Bitte prüfen Sie dieses Feld.') : '';
+    msg.hidden = !show;
+  };
+
+  // Ist ein Feld einmal als fehlerhaft markiert, verschwindet der Hinweis,
+  // sobald die Eingabe passt – nicht vorher schon beim ersten Tippen meckern.
+  requiredFields.forEach((field) => {
+    const evt = field.type === 'checkbox' ? 'change' : 'input';
+    field.addEventListener(evt, () => {
+      if (field.getAttribute('aria-invalid') === 'true' && field.checkValidity()) {
+        setFieldError(field, false);
+      }
+    });
+  });
+
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!status) return;
+    const invalid = requiredFields.filter((f) => !f.checkValidity());
+    requiredFields.forEach((f) => setFieldError(f, invalid.includes(f)));
     status.classList.remove('hidden');
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      status.className = 'rounded-lg border border-accent-200 bg-accent-50 px-4 py-3 text-sm text-accent-700';
-      status.textContent = 'Bitte füllen Sie die Pflichtfelder korrekt aus.';
+    if (invalid.length) {
+      status.className = 'rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800';
+      status.textContent =
+        invalid.length === 1
+          ? 'Ein Feld braucht noch Ihre Angabe – siehe Hinweis am Feld.'
+          : `${invalid.length} Felder brauchen noch Ihre Angabe – siehe Hinweise an den Feldern.`;
+      invalid[0].focus();
       return;
     }
-    status.className = 'rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-sm text-green-800';
+    status.className = 'rounded-lg border border-accent-200 bg-accent-50 px-4 py-3 text-sm text-accent-700';
     status.textContent = 'Vielen Dank! (Vorschau-Hinweis: In diesem Entwurf wird noch nichts versendet – hier wird später ein sicherer Versand angebunden.)';
     form.reset();
   });
