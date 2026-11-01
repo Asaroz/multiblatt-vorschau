@@ -13,9 +13,11 @@ export const site = {
   name: 'Multiblatt',
   tagline: 'schreibt – sortiert – organisiert – optimiert – vermittelt',
   owner: 'Angela Aldenhoff',
-  // Sinngemaess uebernommener Markentext (sprachlich geglaettet, Inhalt = Original)
+  // Sinngemaess uebernommener Markentext (sprachlich geglaettet, Inhalt = Original).
+  // „Schreibbüro" sichtbar entfernt (Angela, 08.09.2026: „echt überholt") –
+  // steht nur noch in der Meta-Description, damit die Google-Suche sie findet.
   shortIntro:
-    'Büro-Dienstleistungen und Schreibbüro aus Rees – für Selbstständige, kleine Betriebe und Privatpersonen.',
+    'Büro-Dienstleistungen aus Rees – für Selbstständige, kleine Betriebe und Privatpersonen.',
 } as const;
 
 export const contact = {
@@ -54,19 +56,24 @@ export interface NavItem {
 }
 
 /** Bildquellen. Alle „placeholder"-Bilder sind PLATZHALTER (Stockfotos,
-   nicht fürs finale Produkt). Angelas Foto stammt von der aktuellen Website. */
+   nicht fürs finale Produkt). Angelas Porträt hat sie selbst geschickt
+   (WhatsApp, 10.09.2026). OFFEN: Für `trust` wünscht sie sich ein Foto von
+   sich am PC/im Bürostuhl – bis das da ist, steht dort ihr Porträt. */
 export const media = {
   hero: withBase('/images/placeholder/hero.jpg'),
-  trust: withBase('/images/placeholder/trust.jpg'),
-  angela: withBase('/images/from-current-site/about-angela.jpg'),
+  trust: withBase('/images/angela/angela-portrait.jpg'),
+  angela: withBase('/images/angela/angela-kopf.jpg'),
   bandIntro: withBase('/images/placeholder/band-intro.jpg'),
   bandStatement: withBase('/images/placeholder/band-statement.jpg'),
   bandCta: withBase('/images/placeholder/band-cta.jpg'),
 } as const;
 
-/** Problem-/Bedarfssituationen der Zielgruppe (echte Inhalte der aktuellen Seite). */
+/** Problem-/Bedarfssituationen der Zielgruppe (echte Inhalte der aktuellen Seite,
+   angepasst nach Angelas Feedback vom 08.09.2026: „Bürokram" statt „Schreiben",
+   Mahnwesen ergänzt). */
 export const problems: string[] = [
-  'Zu viel zum Schreiben, aber nicht genügend Personal?',
+  'Zu viel Bürokram, aber nicht genügend Personal?',
+  'Offene Rechnungen, aber keine Zeit für Zahlungserinnerungen und Mahnungen?',
   'Sie sammeln Ihre Unterlagen in einem Karton und geben diesen beim Steuerberater ab?',
   'Sie haben keine Zeit, Rechnungen zu schreiben?',
   'Zu Hause den Überblick über Ihre Unterlagen verloren?',
@@ -111,8 +118,28 @@ export const servicesIntro =
 
 /** Die vier Dienstleistungsbereiche.
    Quelle: „Multiblatt_Dienstleistungstexte.docx", von Angela Aldenhoff
-   per E-Mail am 05.07.2026 geschickt. Texte woertlich uebernommen. */
+   per E-Mail am 05.07.2026 geschickt. Texte woertlich uebernommen.
+   Reihenfolge: Forderungsmanagement & Mahnwesen zuerst (Angela, 08.09.2026). */
 export const services: Service[] = [
+  {
+    slug: 'forderungsmanagement',
+    href: '/dienstleistungen/forderungsmanagement/',
+    title: 'Forderungsmanagement & Mahnwesen',
+    hook: 'Offene Rechnungen? Ich kümmere mich darum.',
+    summary:
+      'Komplettes Mahnwesen – von der Zahlungserinnerung bis zur Vollstreckung.',
+    body: [
+      'Nicht bezahlte Rechnungen kosten Zeit, Nerven und manchmal auch Geld. Damit Sie sich nicht selbst um das Nachtelefonieren kümmern müssen, übernehme ich für Sie das komplette Mahnwesen – zuverlässig und konsequent.',
+      'Mein Service reicht von der ersten freundlichen Zahlungserinnerung über die Mahnung bis hin zum gerichtlichen Mahn- und Vollstreckungsbescheid. Sollte auch das nicht zum Erfolg führen, unterstütze ich Sie bei der Beauftragung des Gerichtsvollziehers.',
+    ],
+    benefits: [
+      'Professionelles Mahnwesen aus einer Hand',
+      'Von der Erinnerung bis zur Vollstreckung',
+      'Zeitersparnis und weniger Stress für Sie',
+      'Konsequentes Vorgehen bei offenen Forderungen',
+    ],
+    image: withBase('/images/placeholder/service-privat.jpg'),
+  },
   {
     slug: 'digitalisierung-erechnung',
     href: '/dienstleistungen/digitalisierung-erechnung/',
@@ -150,26 +177,10 @@ export const services: Service[] = [
       'Individuell angepasst an Ihren Betrieb',
       'Mehr Zeit für Ihr eigentliches Geschäft',
     ],
-    image: withBase('/images/placeholder/service-buerotaetigkeiten.jpg'),
-  },
-  {
-    slug: 'forderungsmanagement',
-    href: '/dienstleistungen/forderungsmanagement/',
-    title: 'Forderungsmanagement & Mahnwesen',
-    hook: 'Offene Rechnungen? Ich kümmere mich darum.',
-    summary:
-      'Komplettes Mahnwesen – von der Zahlungserinnerung bis zur Vollstreckung.',
-    body: [
-      'Nicht bezahlte Rechnungen kosten Zeit, Nerven und manchmal auch Geld. Damit Sie sich nicht selbst um das Nachtelefonieren kümmern müssen, übernehme ich für Sie das komplette Mahnwesen – zuverlässig und konsequent.',
-      'Mein Service reicht von der ersten freundlichen Zahlungserinnerung über die Mahnung bis hin zum gerichtlichen Mahn- und Vollstreckungsbescheid. Sollte auch das nicht zum Erfolg führen, unterstütze ich Sie bei der Beauftragung des Gerichtsvollziehers.',
-    ],
-    benefits: [
-      'Professionelles Mahnwesen aus einer Hand',
-      'Von der Erinnerung bis zur Vollstreckung',
-      'Zeitersparnis und weniger Stress für Sie',
-      'Konsequentes Vorgehen bei offenen Forderungen',
-    ],
-    image: withBase('/images/placeholder/service-privat.jpg'),
+    // Vorher Foto mit Steuerformularen – auf Angelas Wunsch (08.09.2026) raus,
+    // sonst erwarten Kunden Steuererklärungen. Übergangsweise das ruhige
+    // Büro-Motiv (läuft auch als dunkler Trenner „Die Lösung").
+    image: withBase('/images/placeholder/band-intro.jpg'),
   },
   {
     slug: 'schreibdienste',

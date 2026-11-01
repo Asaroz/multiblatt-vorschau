@@ -6,7 +6,7 @@
 
    BILDER: Stockfotos in /images/placeholder/ sind PLATZHALTER (sichtbar als
    „Platzhalter"-Badge markiert) und gehören nicht ins finale Produkt.
-   Angelas Foto unter „Über mich" stammt von der aktuellen Website. */
+   Angelas Porträt (Über Multiblatt + Über mich) hat sie selbst geschickt. */
 import Base from '../layouts/Base.astro';
 import Figure from '../components/Figure.astro';
 import ParallaxBand from '../components/ParallaxBand.astro';
@@ -25,7 +25,7 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
 
     <div class="container-page grid items-center gap-10 pb-14 pt-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-24">
       <div class="reveal">
-        <p class="eyebrow mb-4">Büro &amp; Schreibservice · Rees</p>
+        <p class="eyebrow mb-4">Büroservice · Rees</p>
         <h1 class="text-5xl font-semibold leading-[1.05] sm:text-6xl md:text-7xl">Multiblatt</h1>
         <p class="mt-5 font-serif text-xl text-accent-700 sm:text-2xl">
           schreibt – sortiert – organisiert – optimiert – vermittelt
@@ -88,7 +88,7 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
     <ul class="stagger mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {
         problems.map((p) => (
-          <li class="card flex items-start gap-3 p-6">
+          <li class="card flex items-start gap-3 p-4 sm:p-6">
             <span class="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-accent-50 text-accent-700" aria-hidden="true">
               <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M9 2a1 1 0 0 1 2 0v9a1 1 0 1 1-2 0V2Zm1 13.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z" />
@@ -138,7 +138,6 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
         {
           services.map((service, i) => {
             const reverse = i % 2 === 1;
-            const num = String(i + 1).padStart(2, '0');
             return (
               <article
                 class:list={[
@@ -148,18 +147,11 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
               >
                 {service.image && (
                   <div class:list={['relative', reverse && 'lg:order-2']}>
-                    <span class="absolute -left-3 -top-6 font-serif text-6xl text-accent-200 sm:text-7xl" aria-hidden="true">
-                      {num}
-                    </span>
-                    <Figure src={service.image} alt={`Symbolbild: ${service.title}`} ratio="aspect-[4/3]" class="relative" />
+                    {/* Mobil flacher (16:9), damit die Leistungen nicht endlos lang werden. */}
+                    <Figure src={service.image} alt={`Symbolbild: ${service.title}`} ratio="aspect-[16/9] lg:aspect-[4/3]" class="relative" />
                   </div>
                 )}
                 <div class:list={['relative', reverse && 'lg:order-1', !service.image && 'max-w-3xl']}>
-                  {!service.image && (
-                    <span class="absolute -left-3 -top-8 font-serif text-6xl text-accent-200 sm:text-7xl" aria-hidden="true">
-                      {num}
-                    </span>
-                  )}
                   <h3 class="text-2xl font-semibold text-ink-900 sm:text-3xl">{service.title}</h3>
                   <p class="mt-2 font-serif text-lg text-accent-700">{service.hook}</p>
                   <div class="prose-block mt-4">
@@ -208,7 +200,7 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
       <div class="reveal">
         <p class="eyebrow mb-3">Über Multiblatt</p>
         <h2 class="text-3xl font-semibold sm:text-4xl">
-          Schreiben, sortieren, organisieren – individuell für Sie
+          Sortieren, organisieren, optimieren – individuell für Sie
         </h2>
         <div class="prose-block mt-6">
           <p>
@@ -232,26 +224,28 @@ import { site, problems, services, servicesIntro, values, contact, media, aboutA
           }
         </ul>
       </div>
-      <div class="reveal relative mx-auto w-full max-w-sm lg:max-w-none lg:self-center">
+      {/* Mobil ausgeblendet: dasselbe Porträt steht direkt darunter in „Über mich". */}
+      <div class="reveal relative mx-auto hidden w-full max-w-sm lg:block lg:max-w-none lg:self-center">
         <div class="absolute -right-5 -top-5 -z-10 hidden h-full w-full rounded-3xl bg-accent-100/60 sm:block" aria-hidden="true"></div>
         <Figure
           src={media.trust}
-          alt="Bürodienstleisterin mit Aktenschrank im Hintergrund"
+          alt="Angela Aldenhoff, Inhaberin von Multiblatt"
           ratio="aspect-[3/4]"
+          badge={null}
           class="rounded-3xl"
         />
       </div>
     </div>
 
     <!-- Über mich (Angela) -->
-    <div class="reveal mt-20 grid items-center gap-10 rounded-3xl border border-line bg-surface p-8 sm:p-12 lg:grid-cols-[auto_1fr] lg:gap-14">
+    <div class="reveal mt-12 grid items-center gap-8 rounded-3xl border border-line bg-surface p-5 sm:mt-20 sm:gap-10 sm:p-12 lg:grid-cols-[auto_1fr] lg:gap-14">
       <div class="mx-auto w-full max-w-[14rem]">
-        {/* Echtes Foto von der aktuellen Website – kein Stockbild. */}
+        {/* Echtes Foto von Angela (WhatsApp, 10.09.2026) – kein Stockbild. */}
         <Figure
           src={media.angela}
           alt="Angela Aldenhoff, Inhaberin von Multiblatt"
           ratio="aspect-[4/5]"
-          badge="Foto: aktuelle Website"
+          badge={null}
         />
       </div>
       <div>

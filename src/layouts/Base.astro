@@ -28,7 +28,8 @@ const { title, description } = Astro.props;
 const pageTitle = title ? `${title} · ${site.name}` : `${site.name} – ${site.tagline}`;
 const pageDescription =
   description ??
-  'Multiblatt – Büro-Dienstleistungen & Schreibbüro von Angela Aldenhoff in Rees. Schreibdienste, vorbereitende Buchhaltung und Hilfe bei privaten Unterlagen.';
+  // „Schreibbüro" bewusst nur hier (Suchmaschinen), nicht im sichtbaren Text.
+  'Multiblatt – Büroservice & Schreibbüro von Angela Aldenhoff in Rees: Forderungsmanagement & Mahnwesen, Digitalisierung & eRechnung, Büro-Organisation und Schreibdienste.';
 
 // LocalBusiness-Strukturdaten (inline, keine externen Aufrufe) – gut fuer lokale Auffindbarkeit.
 const jsonLd = {
