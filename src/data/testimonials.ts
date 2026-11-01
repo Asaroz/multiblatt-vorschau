@@ -49,7 +49,7 @@ export const exampleTestimonials: Testimonial[] = [
     company: 'McOrdner',
     person: 'Filialleitung Rees',
     logo: { src: demo('mcordner.svg'), shape: 'wide' },
-    text: 'Seit Frau Aldenhoff unser Mahnwesen übernommen hat, kommen die offenen Rechnungen schneller rein als die Pommes raus. Wir würden ja 5 Sterne geben – aber Sterne sind auf dieser Seite verboten.',
+    text: 'Seit Frau Aldenhoff unser Mahnwesen übernommen hat, kommen die offenen Rechnungen schneller rein als die Pommes raus.',
     date: 'Oktober 2026',
   },
   {
