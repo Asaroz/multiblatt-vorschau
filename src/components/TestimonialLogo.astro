@@ -1,0 +1,55 @@
+---
+/* Firmenlogo einer Kundenstimme – je nach Form unterschiedlich dargestellt:
+   - `wide`  (Banner/Schriftzug): in voller Breite, feste Höhe – wie ein Briefkopf.
+   - `round` (Icon/Kreis/Quadrat): im Kreis auf weißem Grund.
+   - kein Logo: Monogramm aus den Initialen.
+   `tone="dark"` legt Banner-Logos auf ein helles Plättchen, damit dunkle
+   Schriftzüge auf dunklem Grund lesbar bleiben. */
+import type { Testimonial } from '../data/testimonials';
+import { initials } from '../data/testimonials';
+
+interface Props {
+  t: Testimonial;
+  /** Kreisdurchmesser bzw. Bannerhöhe. */
+  size?: 'sm' | 'md' | 'lg';
+  tone?: 'light' | 'dark';
+}
+
+const { t, size = 'md', tone = 'light' } = Astro.props;
+const circle = { sm: 'h-9 w-9 text-sm', md: 'h-12 w-12 text-base', lg: 'h-14 w-14 text-lg' }[size];
+const banner = { sm: 'h-6 max-w-[8rem]', md: 'h-9 max-w-[11rem]', lg: 'h-11 max-w-[14rem]' }[size];
+---
+
+{
+  t.logo?.shape === 'wide' ? (
+    <span class:list={['inline-flex flex-none items-center', tone === 'dark' && 'rounded-md bg-white px-2 py-1']}>
+      <img src={t.logo.src} alt={`Logo ${t.company}`} class:list={['w-auto object-contain', banner]} loading="lazy" />
+    </span>
+  ) : t.logo ? (
+    <span class:list={['flex flex-none items-center justify-center overflow-hidden rounded-full bg-white ring-1 ring-black/10', circle]}>
+      <img src={t.logo.src} alt={`Logo ${t.company}`} class="h-full w-full object-contain" loading="lazy" />
+    </span>
+  ) : (
+    <span class:list={['monogram', tone === 'dark' && 'monogram-dark', circle]} aria-hidden="true">{initials(t.company)}</span>
+  )
+}
+
+<style>
+  .monogram {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid var(--color-accent-200);
+    background: var(--color-accent-50);
+    color: var(--color-accent-700);
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
+  .monogram-dark {
+    border-color: rgb(199 216 159 / 0.4);
+    background: rgb(255 255 255 / 0.08);
+    color: var(--color-accent-200);
+  }
+</style>

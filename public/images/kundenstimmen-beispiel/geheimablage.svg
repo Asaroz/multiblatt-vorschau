@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Bundesamt für Geheimablage">
+  <defs><path id="ring" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs>
+  <circle cx="100" cy="100" r="98" fill="#1d2b45"/>
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#c9a227" stroke-width="3"/>
+  <circle cx="100" cy="100" r="56" fill="none" stroke="#c9a227" stroke-width="2"/>
+  <text font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="15" fill="#c9a227" letter-spacing="2.2">
+    <textPath href="#ring" startOffset="2%">BUNDESAMT FÜR GEHEIMABLAGE · STRENG GEHEIM ·</textPath>
+  </text>
+  <!-- Aktenordner mit Schloss -->
+  <rect x="74" y="72" width="52" height="58" rx="5" fill="#c9a227"/>
+  <rect x="82" y="80" width="36" height="9" rx="2" fill="#1d2b45"/>
+  <rect x="88" y="104" width="24" height="18" rx="3" fill="#1d2b45"/>
+  <path d="M92 104v-6a8 8 0 0 1 16 0v6" fill="none" stroke="#1d2b45" stroke-width="4"/>
+</svg>

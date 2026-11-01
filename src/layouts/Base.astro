@@ -22,9 +22,11 @@ import { withBase } from '../lib/url';
 interface Props {
   title?: string;
   description?: string;
+  /** Interne Seiten (z. B. Testseiten) von Suchmaschinen ausschließen. */
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 const pageTitle = title ? `${title} · ${site.name}` : `${site.name} – ${site.tagline}`;
 const pageDescription =
   description ??
@@ -67,6 +69,7 @@ const jsonLd = {
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#0f1d33" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 

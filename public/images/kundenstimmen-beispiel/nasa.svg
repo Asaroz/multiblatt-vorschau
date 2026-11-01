@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="N.A.S.A. – Nationale Aktenordner-Sortier-Agentur">
+  <circle cx="100" cy="100" r="98" fill="#16367a"/>
+  <g fill="#ffffff">
+    <circle cx="48" cy="58" r="2"/><circle cx="150" cy="46" r="2.5"/><circle cx="160" cy="132" r="1.8"/>
+    <circle cx="40" cy="128" r="1.6"/><circle cx="122" cy="160" r="2"/><circle cx="70" cy="40" r="1.4"/>
+  </g>
+  <!-- Umlaufbahn als Büroklammer -->
+  <path d="M30 120c40-36 100-62 146-70-30 18-84 52-150 86" fill="none" stroke="#e53935" stroke-width="7" stroke-linecap="round"/>
+  <path d="M40 86c18-10 40-14 58-10" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <text x="100" y="112" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="38" fill="#ffffff" font-style="italic">N.A.S.A.</text>
+  <text x="100" y="140" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#cfe0ff" letter-spacing="1">AKTENORDNER-AGENTUR</text>
+</svg>

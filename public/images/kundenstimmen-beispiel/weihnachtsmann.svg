@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 88" role="img" aria-label="Weihnachtsmann &amp; Co. KG">
+  <g transform="translate(6 14)">
+    <rect x="4" y="22" width="52" height="40" rx="4" fill="#b71c1c"/>
+    <rect x="0" y="12" width="60" height="14" rx="3" fill="#d32f2f"/>
+    <rect x="26" y="12" width="8" height="50" fill="#f9d36b"/>
+    <path d="M30 12c-8-14-22-10-16-2 3 4 10 3 16 2Zm0 0c8-14 22-10 16-2-3 4-10 3-16 2Z" fill="#f9d36b"/>
+  </g>
+  <text x="80" y="46" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="30" fill="#8e1b1b">Weihnachtsmann</text>
+  <text x="80" y="72" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="17" fill="#2e5d34">&amp; Co. KG · Nordpol · seit 1823</text>
+</svg>

@@ -1,0 +1,688 @@
+---
+/* INTERNE Testseite: drei Darstellungs-Varianten für Kundenstimmen, damit
+   Angela eine auswählen kann. Nicht verlinkt, `noindex`. Alle Texte sind
+   ERFUNDENE Beispiele (exampleTestimonials) – nie auf der echten Seite zeigen.
+
+   Runde 2 (nach Lars' Feedback „zu basic, kein Catcher"), Leitgedanken:
+   A „Briefstapel" – Multi-BLATT: jede Stimme ist ein Referenzschreiben auf
+     Briefkopf (Angelas eigene Idee vom 08.09.), Blättern = Blatt nach hinten.
+   B „Laufband" – dunkles Band, Stimmen laufen langsam durch (pausierbar).
+   C „Große Stimme" – ein Zitat groß, Logo-Leiste als Auswahl.
+   Nach Angelas Wahl: Variante als Komponente auf die Startseite, Seite löschen. */
+import Base from '../layouts/Base.astro';
+import TestimonialLogo from '../components/TestimonialLogo.astro';
+import { exampleTestimonials as items } from '../data/testimonials';
+
+/* Für den gemeinsamen „Ganzen Text lesen"-Dialog. */
+const dialogData = JSON.stringify(
+  items.map((t) => ({ company: t.company, person: t.person ?? '', text: t.text, date: t.date })),
+);
+---
+
+<Base title="Kundenstimmen – Varianten" noindex={true}>
+  <section class="container-page py-14 sm:py-20">
+    <div class="max-w-2xl">
+      <h1 class="text-3xl font-semibold sm:text-4xl">Kundenstimmen – drei Vorschläge</h1>
+      <div class="prose-block mt-5">
+        <p>
+          Liebe Angela, hier siehst du drei Möglichkeiten, wie die Stimmen deiner
+          Kundinnen und Kunden auf der Seite aussehen könnten. Schau sie dir gerne
+          am PC <strong>und</strong> am Handy an, klick ruhig überall drauf, und sag
+          mir einfach, welche dir am besten gefällt.
+        </p>
+        <p>
+          Keine Sorge: Die Firmen unten sind natürlich <strong>erfunden</strong> und nur
+          zum Schmunzeln da. Sie zeigen, wie kurze und lange Texte wirken und wie
+          verschiedene Logos aussehen – ein breites Logo wie deins, ein rundes Logo
+          oder gar kein Logo (dann stehen die Anfangsbuchstaben im Kreis). Sterne gibt
+          es bewusst nicht.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= VARIANTE A: Briefstapel ======================= -->
+  <section class="border-t border-line bg-accent-50/50" aria-labelledby="va-title">
+    <div class="container-page py-14 sm:py-20">
+      <div class="variant-label">
+        <span class="variant-badge">A</span>
+        <div>
+          <p id="va-title" class="text-lg font-semibold text-ink-900">Briefstapel</p>
+          <p class="text-sm text-muted">Jede Stimme ist ein kleines Referenzschreiben auf dem Briefkopf der Firma – passend zu „Multiblatt". Mit den Pfeilen (oder am Handy per Wischen) wandert das oberste Blatt nach hinten.</p>
+        </div>
+      </div>
+
+      <div class="mt-12 grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16" data-stack-root>
+        <div>
+          <h2 class="text-balance text-4xl font-semibold leading-tight sm:text-5xl">
+            Post von zufriedenen Kunden
+          </h2>
+          <p class="mt-5 max-w-md text-lg text-ink-700">
+            Was Betriebe und Vereine aus der Region über die Zusammenarbeit mit
+            Multiblatt schreiben.
+          </p>
+        </div>
+
+        <div>
+          <div class="stack" data-stack>
+            {items.map((t, i) => (
+              <article class="sheet" data-sheet data-pos={String(i)} aria-hidden={i === 0 ? 'false' : 'true'}>
+                {/* Banner-Logo = Briefkopf (Firma steht im Logo, Name nur für Screenreader);
+                    Kreis-Logo/Monogramm mit Firmenname daneben. */}
+                <div class="sheet-head">
+                  <TestimonialLogo t={t} size={t.logo?.shape === 'wide' ? 'lg' : 'md'} />
+                  <div class="min-w-0 flex-1">
+                    <p class:list={['truncate font-semibold text-ink-900', t.logo?.shape === 'wide' && 'sr-only']}>{t.company}</p>
+                    <p class:list={['text-xs uppercase tracking-wide text-muted', t.logo?.shape === 'wide' && 'text-right']}>Referenz · {t.date}</p>
+                  </div>
+                </div>
+                <blockquote class="sheet-body">
+                  <p class="line-clamp-5 font-serif text-lg leading-relaxed text-ink-800 sm:text-xl" data-clamp>{t.text}</p>
+                </blockquote>
+                <div class="sheet-foot">
+                  <p class="font-serif italic text-ink-700">— {t.person ? `${t.person}, ` : ''}{t.company}</p>
+                  <button type="button" class="text-link" data-open-full={String(i)} tabindex={i === 0 ? '0' : '-1'}>Ganzes Schreiben lesen</button>
+                </div>
+              </article>
+            ))}
+          </div>
+          {/* Steuerung direkt unter dem Stapel – sichtbar zugehörig (Lars' Feedback). */}
+          <div class="mt-10 flex items-center justify-center gap-4">
+            <button type="button" class="round-btn" data-stack-prev aria-label="Vorheriges Schreiben">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            </button>
+            <p class="min-w-[4.5rem] text-center text-sm tabular-nums text-muted" aria-live="polite" data-stack-counter>1 von {items.length}</p>
+            <button type="button" class="round-btn round-btn-primary" data-stack-next aria-label="Nächstes Schreiben">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+          </div>
+          <p class="mt-4 text-center text-sm text-muted">Echte Stimmen – veröffentlicht mit Einverständnis der Kundinnen und Kunden.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= VARIANTE B: Laufband ======================= -->
+  <section class="border-t border-line" aria-labelledby="vb-title">
+    <div class="container-page pt-14 sm:pt-20">
+      <div class="variant-label">
+        <span class="variant-badge">B</span>
+        <div>
+          <p id="vb-title" class="text-lg font-semibold text-ink-900">Laufband</p>
+          <p class="text-sm text-muted">Ein dunkles Band, in dem die Stimmen langsam durchlaufen. Hält an, wenn man mit der Maus drüberfährt, und lässt sich pausieren. Ein Klick öffnet den ganzen Text.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee-band mt-10 bg-ink-900 py-14 text-white sm:py-20" data-marquee-root>
+      <div class="container-page flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <h2 class="max-w-2xl text-balance font-serif text-4xl font-semibold leading-tight !text-white sm:text-5xl">
+          Das sagen Betriebe aus der Region
+        </h2>
+        <button type="button" class="pause-btn self-start sm:self-auto" data-marquee-toggle aria-pressed="false">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-icon-pause><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg>
+          <svg class="hidden h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-icon-play><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" /></svg>
+          <span data-marquee-label>Anhalten</span>
+        </button>
+      </div>
+
+      <div class="marquee mt-10" data-marquee>
+        <ul class="marquee-track" data-marquee-track>
+          {[0, 1].map((copy) =>
+            items.map((t, i) => (
+              <li class="marquee-item" aria-hidden={copy === 1 ? 'true' : undefined}>
+                <button type="button" class="quote-chip" data-open-full={String(i)} tabindex={copy === 1 ? '-1' : undefined}>
+                  <span class="line-clamp-4 text-left font-serif text-lg leading-snug text-white">„{t.text}"</span>
+                  <span class="mt-5 flex items-center gap-3">
+                    <TestimonialLogo t={t} size="sm" tone="dark" />
+                    <span class="text-left">
+                      <span class="block text-sm font-semibold text-white">{t.company}</span>
+                      <span class="block text-xs text-ink-100/75">Ganzen Text lesen</span>
+                    </span>
+                  </span>
+                </button>
+              </li>
+            )),
+          )}
+        </ul>
+      </div>
+      <p class="container-page mt-8 text-sm text-ink-100/75">Echte Stimmen – veröffentlicht mit Einverständnis der Kundinnen und Kunden.</p>
+    </div>
+  </section>
+
+  <!-- ======================= VARIANTE C: Große Stimme ======================= -->
+  <section class="border-t border-line" aria-labelledby="vc-title">
+    <div class="container-page py-14 sm:py-20">
+      <div class="variant-label">
+        <span class="variant-badge">C</span>
+        <div>
+          <p id="vc-title" class="text-lg font-semibold text-ink-900">Große Stimme</p>
+          <p class="text-sm text-muted">Immer ein Zitat, ganz groß. Darunter die Logos aller Kunden – ein Klick auf ein Logo zeigt dessen Stimme.</p>
+        </div>
+      </div>
+
+      <div class="mx-auto mt-12 max-w-4xl" data-spotlight>
+        <svg class="h-14 w-14 text-accent-500 sm:h-20 sm:w-20" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+          <path d="M20 10c-7.7 2.2-13 9-13 17.6V38h12.5V25.5H13c0-5.6 3-9.6 8.2-11.4L20 10Zm21 0c-7.7 2.2-13 9-13 17.6V38h12.5V25.5H34c0-5.6 3-9.6 8.2-11.4L41 10Z" />
+        </svg>
+        <div class="relative mt-4 min-h-[13rem] sm:min-h-[15rem]">
+          {items.map((t, i) => (
+            <figure class:list={['spotlight-quote', i > 0 && 'hidden']} data-spot={String(i)}>
+              <blockquote>
+                <p class="line-clamp-4 text-balance font-serif text-2xl font-medium leading-snug text-ink-900 sm:text-4xl" data-clamp>{t.text}</p>
+              </blockquote>
+              <figcaption class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+                <TestimonialLogo t={t} size="md" />
+                <span class="font-semibold text-ink-900">{t.company}{t.person && <span class="font-normal text-muted"> · {t.person}</span>}</span>
+                <button type="button" class="text-link" data-open-full={String(i)}>Ganzen Text lesen</button>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <div class="mt-10 border-t border-line pt-6">
+          <p class="text-sm text-muted">Stimmen von</p>
+          <div class="mt-4 flex flex-wrap gap-3" role="tablist" aria-label="Kundenstimmen auswählen">
+            {items.map((t, i) => (
+              <button type="button" role="tab" class="logo-tab" aria-selected={i === 0 ? 'true' : 'false'} data-spot-tab={String(i)}>
+                <TestimonialLogo t={t} size="sm" />
+                <span class:list={['text-sm font-medium', t.logo?.shape === 'wide' && 'sr-only']}>{t.company}</span>
+              </button>
+            ))}
+          </div>
+          <p class="mt-6 text-sm text-muted">Echte Stimmen – veröffentlicht mit Einverständnis der Kundinnen und Kunden.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gemeinsamer Dialog für den vollständigen Text -->
+  <dialog class="full-dialog" data-full-dialog aria-labelledby="full-title">
+    <div class="p-6 sm:p-8">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p id="full-title" class="text-lg font-semibold text-ink-900" data-full-company></p>
+          <p class="text-sm text-muted" data-full-meta></p>
+        </div>
+        <button type="button" class="round-btn h-10 w-10 flex-none" data-full-close aria-label="Schließen">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+        </button>
+      </div>
+      <p class="mt-5 font-serif text-lg leading-relaxed text-ink-800" data-full-text></p>
+    </div>
+  </dialog>
+  <script type="application/json" id="testimonial-data" set:html={dialogData} />
+</Base>
+
+<style>
+  /* ---------- Gemeinsames ---------- */
+  .variant-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 36rem;
+    padding: 1rem 1.25rem;
+    border: 1px dashed var(--color-accent-500);
+    border-radius: 0.75rem;
+    background: var(--color-surface);
+  }
+  .variant-badge {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    background: var(--color-ink-900);
+    color: #fff;
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
+  .text-link {
+    min-height: 2.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-accent-700);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+  .round-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    border: 1px solid #848e9f;
+    background: var(--color-surface);
+    color: var(--color-ink-900);
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+  }
+  .round-btn:hover {
+    border-color: var(--color-accent-600);
+    color: var(--color-accent-700);
+  }
+  .round-btn:active {
+    transform: scale(0.94);
+  }
+  .round-btn-primary {
+    border-color: var(--color-accent-600);
+    background: var(--color-accent-600);
+    color: #fff;
+  }
+  .round-btn-primary:hover {
+    background: var(--color-accent-700);
+    color: #fff;
+  }
+
+  /* ---------- A: Briefstapel ---------- */
+  .stack {
+    position: relative;
+    height: 29rem;
+    touch-action: pan-y;
+    user-select: none;
+  }
+  @media (min-width: 640px) {
+    .stack {
+      height: 24rem;
+    }
+  }
+  .sheet {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 1.5rem 1.25rem;
+    border-radius: 0.375rem;
+    background: var(--color-surface);
+    /* Papierschatten: kurz und nach unten versetzt statt breitem Schein */
+    box-shadow: 0 1px 1px rgb(15 29 51 / 0.08), 0 10px 18px -8px rgb(15 29 51 / 0.3);
+    transform-origin: 50% 90%;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  }
+  @media (min-width: 640px) {
+    .sheet {
+      padding: 2.25rem 2.25rem 1.5rem;
+    }
+  }
+  /* Briefkopf-Leiste in Markengrün – wie auf Angelas Briefpapier */
+  .sheet::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 6px;
+    border-radius: 0 0 4px 4px;
+    background: var(--color-accent-500);
+  }
+  .sheet-head {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .sheet-body {
+    flex: 1;
+    padding-top: 1.25rem;
+    overflow: hidden;
+  }
+  .sheet-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding-top: 0.75rem;
+  }
+  /* Position im Stapel: 0 = oben, 1/2 = dahinter sichtbar, Rest versteckt */
+  .sheet[data-pos='0'] {
+    z-index: 30;
+    transform: none;
+  }
+  .sheet[data-pos='1'] {
+    z-index: 20;
+    background: #fbfaf6;
+    transform: translate(10px, 12px) rotate(2.5deg);
+  }
+  .sheet[data-pos='2'] {
+    z-index: 10;
+    background: #f8f6f0;
+    transform: translate(-8px, 20px) rotate(-3deg);
+  }
+  /* Ab Tablet-Breite ist Platz für einen stärker gefächerten Stapel */
+  @media (min-width: 640px) {
+    .sheet[data-pos='1'] {
+      transform: translate(22px, 14px) rotate(4deg);
+    }
+    .sheet[data-pos='2'] {
+      transform: translate(-20px, 26px) rotate(-5deg);
+    }
+  }
+  .sheet:not([data-pos='0']):not([data-pos='1']):not([data-pos='2']) {
+    z-index: 0;
+    opacity: 0;
+    transform: translate(0, 26px) rotate(1deg);
+  }
+  /* Hintere Blätter: nur Papier mit Briefkopf-Leiste, kein halb lesbarer Text */
+  .sheet:not([data-pos='0']) > * {
+    visibility: hidden;
+  }
+  /* Oberstes Blatt fliegt raus (vor), bzw. kommt zurück (zurück) */
+  .sheet.is-leaving {
+    z-index: 40;
+    animation: sheet-out 0.42s cubic-bezier(0.55, 0, 0.75, 0.25) forwards;
+  }
+  .sheet.is-returning {
+    z-index: 40;
+    animation: sheet-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes sheet-out {
+    to {
+      transform: translate(115%, -6%) rotate(14deg);
+      opacity: 0;
+    }
+  }
+  @keyframes sheet-in {
+    from {
+      transform: translate(-115%, -6%) rotate(-14deg);
+      opacity: 0;
+    }
+  }
+
+  /* ---------- B: Laufband ---------- */
+  .pause-btn {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: 9999px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+  .pause-btn:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 1.25rem;
+    padding-inline: 0.625rem;
+    animation: marquee 70s linear infinite;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track,
+  [data-marquee-root].is-paused .marquee-track,
+  [data-marquee-root].is-offscreen .marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .marquee-item {
+    flex: none;
+    width: min(22rem, 78vw);
+  }
+  .quote-chip {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    min-height: 13rem;
+    padding: 1.5rem;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 0.05);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .quote-chip:hover,
+  .quote-chip:focus-visible {
+    border-color: rgb(199 216 159 / 0.6);
+    background: rgb(255 255 255 / 0.09);
+  }
+
+  /* ---------- C: Große Stimme ---------- */
+  .spotlight-quote:not(.hidden) {
+    animation: spot-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes spot-in {
+    from {
+      clip-path: inset(0 100% 0 0);
+      opacity: 0.4;
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+      opacity: 1;
+    }
+  }
+  .logo-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.75rem;
+    padding: 0.25rem 1rem 0.25rem 0.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: 9999px;
+    background: var(--color-surface);
+    color: var(--color-ink-700);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  }
+  .logo-tab:hover {
+    border-color: var(--color-accent-200);
+  }
+  .logo-tab[aria-selected='true'] {
+    border-color: var(--color-accent-600);
+    background: var(--color-accent-50);
+    color: var(--color-ink-900);
+  }
+
+  /* ---------- Dialog ---------- */
+  .full-dialog {
+    width: min(40rem, calc(100vw - 2rem));
+    max-height: min(80vh, 46rem);
+    margin: auto;
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    background: var(--color-surface);
+    box-shadow: 0 24px 60px rgb(15 29 51 / 0.25);
+  }
+  .full-dialog::backdrop {
+    background: rgb(15 29 51 / 0.55);
+  }
+  .full-dialog[open] {
+    animation: dialog-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+  }
+
+  /* ---------- Reduzierte Bewegung: kein Fliegen, kein Laufband ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .sheet.is-leaving,
+    .sheet.is-returning,
+    .spotlight-quote:not(.hidden),
+    .full-dialog[open] {
+      animation: none;
+    }
+    .marquee {
+      overflow-x: auto;
+      mask-image: none;
+      scroll-snap-type: x mandatory;
+    }
+    .marquee-track {
+      animation: none;
+    }
+    .marquee-item {
+      scroll-snap-align: start;
+    }
+    .marquee-item[aria-hidden='true'],
+    [data-marquee-toggle] {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  type Entry = { company: string; person: string; text: string; date: string };
+  const data: Entry[] = JSON.parse(document.getElementById('testimonial-data')?.textContent ?? '[]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Gemeinsamer Dialog „Ganzen Text lesen" ----------
+  const dialog = document.querySelector<HTMLDialogElement>('[data-full-dialog]');
+  const openFull = (i: number) => {
+    const t = data[i];
+    if (!dialog || !t) return;
+    dialog.querySelector('[data-full-company]')!.textContent = t.company;
+    dialog.querySelector('[data-full-meta]')!.textContent = [t.person, t.date].filter(Boolean).join(' · ');
+    dialog.querySelector('[data-full-text]')!.textContent = t.text;
+    dialog.showModal();
+  };
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-open-full]');
+    if (btn) openFull(Number(btn.dataset.openFull));
+  });
+  dialog?.querySelector('[data-full-close]')?.addEventListener('click', () => dialog.close());
+  // Klick auf den abgedunkelten Hintergrund schließt ebenfalls.
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  // ---------- A: Briefstapel ----------
+  document.querySelectorAll<HTMLElement>('[data-stack-root]').forEach((root) => {
+    const stack = root.querySelector<HTMLElement>('[data-stack]');
+    const sheets = Array.from(root.querySelectorAll<HTMLElement>('[data-sheet]'));
+    const counters = root.querySelectorAll('[data-stack-counter]');
+    const n = sheets.length;
+    let top = 0;
+    let busy = false;
+
+    const layout = () => {
+      sheets.forEach((s, i) => {
+        const pos = (i - top + n) % n;
+        s.dataset.pos = String(pos);
+        s.setAttribute('aria-hidden', pos === 0 ? 'false' : 'true');
+        s.querySelectorAll<HTMLElement>('button').forEach((b) => (b.tabIndex = pos === 0 ? 0 : -1));
+      });
+      counters.forEach((c) => (c.textContent = `${top + 1} von ${n}`));
+    };
+
+    const next = () => {
+      if (busy) return;
+      const leaving = sheets[top];
+      if (reduceMotion) {
+        top = (top + 1) % n;
+        layout();
+        return;
+      }
+      busy = true;
+      leaving.classList.add('is-leaving');
+      leaving.addEventListener(
+        'animationend',
+        () => {
+          leaving.classList.remove('is-leaving');
+          top = (top + 1) % n;
+          layout();
+          busy = false;
+        },
+        { once: true },
+      );
+    };
+
+    const prev = () => {
+      if (busy) return;
+      top = (top - 1 + n) % n;
+      layout();
+      if (reduceMotion) return;
+      busy = true;
+      const returning = sheets[top];
+      returning.classList.add('is-returning');
+      returning.addEventListener(
+        'animationend',
+        () => {
+          returning.classList.remove('is-returning');
+          busy = false;
+        },
+        { once: true },
+      );
+    };
+
+    root.querySelectorAll('[data-stack-next]').forEach((b) => b.addEventListener('click', next));
+    root.querySelectorAll('[data-stack-prev]').forEach((b) => b.addEventListener('click', prev));
+
+    // Wischen am Handy: nach links = weiter, nach rechts = zurück.
+    let startX = 0;
+    let startY = 0;
+    stack?.addEventListener('pointerdown', (e) => {
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+    stack?.addEventListener('pointerup', (e) => {
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) (dx < 0 ? next : prev)();
+    });
+
+    layout();
+  });
+
+  // ---------- B: Laufband ----------
+  document.querySelectorAll<HTMLElement>('[data-marquee-root]').forEach((root) => {
+    const toggle = root.querySelector<HTMLButtonElement>('[data-marquee-toggle]');
+    const label = root.querySelector('[data-marquee-label]');
+    toggle?.addEventListener('click', () => {
+      const paused = root.classList.toggle('is-paused');
+      toggle.setAttribute('aria-pressed', String(paused));
+      if (label) label.textContent = paused ? 'Weiterlaufen' : 'Anhalten';
+      root.querySelector('[data-icon-pause]')?.classList.toggle('hidden', paused);
+      root.querySelector('[data-icon-play]')?.classList.toggle('hidden', !paused);
+    });
+    // Außerhalb des Bildschirms anhalten (spart Akku, keine Endlosschleife im Hintergrund).
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        root.classList.toggle('is-offscreen', !entry.isIntersecting);
+      }).observe(root);
+    }
+  });
+
+  // ---------- C: Große Stimme ----------
+  document.querySelectorAll<HTMLElement>('[data-spotlight]').forEach((root) => {
+    const quotes = Array.from(root.querySelectorAll<HTMLElement>('[data-spot]'));
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-spot-tab]'));
+    const select = (i: number) => {
+      quotes.forEach((q, j) => q.classList.toggle('hidden', j !== i));
+      tabs.forEach((t, j) => t.setAttribute('aria-selected', String(j === i)));
+    };
+    tabs.forEach((t, i) => t.addEventListener('click', () => select(i)));
+    // Pfeiltasten zwischen den Logos (Tablist-Konvention).
+    root.querySelector('[role="tablist"]')?.addEventListener('keydown', (e) => {
+      const ke = e as KeyboardEvent;
+      if (ke.key !== 'ArrowRight' && ke.key !== 'ArrowLeft') return;
+      const cur = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+      const nxt = (cur + (ke.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      select(nxt);
+      tabs[nxt].focus();
+    });
+  });
+</script>
